@@ -1,0 +1,304 @@
+@import "tailwindcss";
+
+@theme {
+  /* Green depth layers */
+  --color-green-950: #0d2212;
+  --color-green-900: #142f18;
+  --color-green-800: #1A3F22; /* User's Dark Green */
+  --color-green-700: #265530;
+  --color-green-600: #346c3e;
+
+  /* Gold / Olive accents */
+  --color-gold-500: #D99201; /* User's Gold */
+  --color-gold-600: #905A01; /* User's Dark Gold */
+  --color-olive-500: #58761B; /* User's Olive */
+
+  /* Neutrals */
+  --color-bone-100: #F5F1EA;
+  --color-bone-200: #E9E4DA;
+  --color-ash-400: #9BA3AA;
+
+  /* Typography */
+  --font-display: "Fraunces", serif;
+  --font-body: "General Sans", "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+@layer base {
+  :root {
+    /* Abstract Grid tokens */
+    --grid-line-abstract: rgba(0, 0, 0, 0.08);
+    --grid-line-gold: rgba(217, 146, 1, 0.3);
+    --grid-line-gold-solid: #D99201;
+    --grid-line-green: rgba(88, 118, 27, 0.3);
+    --grid-line-green-solid: #58761B;
+    --cell-fill: transparent;
+    --cell-fill-hover: transparent;
+
+    /* Fluid type scale */
+    --fs-hero: clamp(2.75rem, 7vw, 7.5rem);
+    --fs-h1: clamp(2.25rem, 5vw, 4.5rem);
+    --fs-h2: clamp(1.75rem, 3.2vw, 3rem);
+    --fs-h3: clamp(1.25rem, 1.8vw, 1.75rem);
+    --fs-body: clamp(1rem, 1.1vw, 1.125rem);
+    --fs-label: 0.8125rem;
+
+    --radius-card: 0px; /* Swiss grids are sharp */
+    --radius-pill: 0px; /* Sharp buttons */
+    --shadow-ambient: none;
+    --shadow-glow-gold: none;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-bone-100);
+    color: var(--color-green-950);
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* Ambient background glow — animated drift */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 50% at 85% 20%, rgba(217, 146, 1, 0.08), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 10% 80%, rgba(88, 118, 27, 0.06), transparent 70%);
+    animation: glowDrift 20s ease-in-out infinite alternate;
+  }
+
+  /* Noise texture overlay */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  ::selection {
+    background-color: rgba(217, 146, 1, 0.4);
+    color: #fff;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Visible focus rings */
+  :focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  /* ---- Label / Mono system ---- */
+  .font-label {
+    font-family: var(--font-mono);
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* ---- Fluid type helpers ---- */
+  .font-hero  { font-size: var(--fs-hero); }
+  .font-h1    { font-size: var(--fs-h1); }
+  .font-h2    { font-size: var(--fs-h2); }
+  .font-h3    { font-size: var(--fs-h3); }
+  .font-body-size { font-size: var(--fs-body); }
+
+  /* ---- Color helpers ---- */
+  .text-gold    { color: var(--color-gold-500); }
+  .text-olive   { color: var(--color-olive-500); }
+  .text-bone    { color: var(--color-bone-100); }
+  .text-bone-200 { color: var(--color-bone-200); }
+  .text-ash     { color: var(--color-ash-400); }
+
+  .bg-green-950 { background-color: var(--color-green-950); }
+  .bg-green-900 { background-color: var(--color-green-900); }
+  .bg-green-800 { background-color: var(--color-green-800); }
+
+  /* ---- Border helpers ---- */
+  .border-g700     { border-color: var(--color-green-700); }
+  .border-grid-gold { border-color: var(--grid-line-gold-solid); }
+  .border-grid-green { border-color: var(--grid-line-green-solid); }
+
+  /* ---- Shadow helpers ---- */
+  .gold-glow-shadow { box-shadow: var(--shadow-glow-gold); }
+  .ambient-shadow    { box-shadow: var(--shadow-ambient); }
+
+  /* ---- Shimmer gradient text ---- */
+  .text-gradient-gold {
+    background: linear-gradient(135deg, var(--color-gold-500), var(--color-bone-100), var(--color-gold-500));
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3.5s ease-in-out infinite;
+  }
+
+  /* ---- Hairline grid rule ---- */
+  .hairline-x {
+    position: relative;
+  }
+  .hairline-x::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--color-green-700);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  /* ---- Marquee ---- */
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 28s linear infinite;
+    width: max-content;
+  }
+  .marquee-track:hover { animation-play-state: paused; }
+
+  /* ---- GlassPanel base (also used as class for non-component usage) ---- */
+  .glass {
+    position: relative;
+    background: var(--cell-fill);
+    border: 1px solid var(--grid-line-gold);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  .glass:hover {
+    border-color: var(--grid-line-gold-solid);
+    background: var(--cell-fill-hover);
+  }
+
+  /* ---- Pill button base ---- */
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    background: var(--color-gold-500);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: var(--fs-label);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: var(--radius-pill);
+    border: none;
+    cursor: pointer;
+    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-gold::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.12);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .btn-gold:hover {
+    background: var(--color-gold-600);
+  }
+  .btn-gold:hover::after { opacity: 1; }
+  .btn-gold:active { transform: translateY(0); }
+
+  /* Ghost outline button */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    background: transparent;
+    color: var(--color-green-950);
+    font-family: var(--font-mono);
+    font-size: var(--fs-label);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--glass-border);
+    cursor: pointer;
+    transition: border-color 0.25s ease, background 0.25s ease;
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-gold-500);
+    background: rgba(217, 146, 1, 0.08);
+  }
+}
+
+/* ---- Keyframes ---- */
+@keyframes glowDrift {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-4px); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes scanline {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100vw); }
+}
+
+@keyframes irisWipe {
+  from { clip-path: circle(0% at 50% 50%); }
+  to   { clip-path: circle(150% at 50% 50%); }
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  body::before { animation: none; }
+  .marquee-track { animation: none; }
+}

@@ -1,0 +1,230 @@
+/* ─── Our Works Page Styles ────────────────────────────────────────────── */
+
+.our-works-container {
+    background-color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ─── Landing Reveal Section ─── */
+.ow-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100svh;
+    background-color: #111;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    will-change: clip-path;
+    overflow: hidden;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ow-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 7px;
+    background-color: #fff;
+    transform: scaleX(0);
+    transform-origin: left;
+    will-change: transform;
+}
+
+.ow-preloader-images {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25rem;
+    height: 25rem;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    will-change: clip-path;
+    overflow: hidden;
+}
+
+.ow-preloader-images .ow-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+    will-change: clip-path;
+    overflow: hidden;
+}
+
+.ow-preloader-images .ow-img img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(2);
+    will-change: transform;
+}
+
+.ow-preloader-copy {
+    position: absolute;
+    bottom: 5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30%;
+    color: #fff;
+    text-align: center;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-family: var(--font-epilogue);
+}
+
+.ow-preloader-header {
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(60svh);
+    transform-origin: top;
+    will-change: transform;
+    z-index: 51;
+}
+
+.ow-preloader-header span.ow-title {
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 8rem;
+    font-weight: 800;
+    line-height: 0.9;
+    display: block;
+    font-family: var(--font-epilogue);
+}
+
+.ow-hero {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.ow-hero h1 {
+    font-size: 5rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-family: var(--font-epilogue);
+}
+
+.ow-divider {
+    position: relative;
+    width: 100%;
+    height: 1.5px;
+    transform: scaleX(0);
+    background-color: rgba(0, 0, 0, 0.2);
+    will-change: transform;
+    margin-top: 1rem;
+}
+
+/* ─── 3D Sticky Cards Section ─── */
+.ow-sticky-cards {
+    background-color: var(--color-lightblue, lightblue);
+    perspective: 1000px;
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    overflow: hidden;
+}
+
+.ow-sticky-cards .ow-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 65%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    color: #fff;
+    transform-origin: center bottom;
+    will-change: transform;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.ow-card .ow-col {
+    flex: 1;
+    height: 100%;
+}
+
+.ow-card .ow-col:nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5rem;
+}
+
+.ow-card .ow-col:nth-child(2) {
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.ow-card .ow-col:nth-child(2) img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ow-card h2 {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.ow-card p {
+    font-size: 1rem;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+.ow-card-maroon { background-color: var(--color-maroon); }
+.ow-card-orange { background-color: var(--color-orange); }
+.ow-card-green { background-color: var(--color-green); }
+.ow-card-pink { background-color: var(--color-pink); }
+.ow-card-darkblue { background-color: var(--color-darkblue); }
+.ow-card-charcoal { background-color: var(--color-charcoal, #333); }
+
+@media (max-width: 1000px) {
+    .ow-preloader-header span.ow-title {
+        font-size: 4rem;
+    }
+    .ow-preloader-images {
+        top: 35%;
+        width: 15rem;
+        height: 15rem;
+    }
+    .ow-preloader-copy {
+        width: 80%;
+    }
+    .ow-preloader-header {
+        transform: translateY(50svh);
+    }
+    .ow-sticky-cards .ow-card {
+        width: calc(100% - 2rem);
+        height: 75%;
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+    .ow-card .ow-col {
+        width: 100%;
+    }
+    .ow-hero h1 {
+        font-size: 3rem;
+    }
+}

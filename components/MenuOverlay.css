@@ -1,0 +1,117 @@
+.nav-toggle {
+    position: absolute;
+    top: 2.2rem;
+    right: 7rem; /* Position it to the left of the WhatsApp button */
+    pointer-events: all;
+    cursor: pointer;
+    z-index: 9999;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.nav-toggle-menu {
+    color: var(--base-300, #c9f31d);
+}
+
+.nav-toggle-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #222225;
+    opacity: 0;
+}
+
+.menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 2.5rem;
+    display: flex;
+    gap: 2rem;
+    color: #222225;
+    pointer-events: none;
+    z-index: 9998;
+}
+
+.menu.is-open {
+    pointer-events: all;
+}
+
+.menu-bg-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.menu-logo {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    opacity: 0;
+    padding: 0.5rem;
+}
+
+.menu-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.menu-col a {
+    text-decoration: none;
+    color: #222225;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    line-height: 1.35;
+    width: max-content;
+    overflow: hidden; /* Important for SplitType animation */
+}
+
+.menu-col p {
+    color: #c9f31d;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.25rem;
+}
+
+.menu-col h3,
+.menu-col h6 {
+    font-weight: 450;
+    line-height: 1.35;
+    letter-spacing: -2%;
+}
+
+.menu-col h3 {
+    font-size: clamp(1.5rem, 3vw, 3rem);
+}
+
+.menu-col h6 {
+    font-size: clamp(1rem, 1.25vw, 1.5rem);
+}
+
+.menu a .char,
+.menu-col h3,
+.menu-col h6,
+.menu-col p {
+    will-change: transform, opacity;
+}
+
+@media (max-width: 1000px) {
+    .menu {
+        flex-direction: column-reverse;
+        padding-top: 8rem;
+    }
+
+    .menu-col-links {
+        flex: 1.5;
+    }
+}

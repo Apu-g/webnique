@@ -1,258 +1,180 @@
-"use client";
-import Link from "next/link";
-import Image from "next/image";
-import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+'use client';
 
-const SOCIAL = [
-  { icon: <FaFacebook />, href: "https://www.facebook.com/share/12LFfs5bPy7/", label: "Facebook" },
-  { icon: <FaInstagram />, href: "https://www.instagram.com/webniquedigitalsolutions?igsh=bTB3cmgzZmd5bjk=", label: "Instagram" },
-  { icon: <FaLinkedin />, href: "https://www.linkedin.com/company/webnique-digital-solutions/", label: "LinkedIn" },
-  { icon: <FaYoutube />, href: "https://www.youtube.com/@WebniqueDigitalSolutions", label: "YouTube" },
-];
+import { useEffect } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SOCIAL_ICONS, WIGGLE_CONFIG } from '@/lib/data';
+import TransitionLink from './TransitionLink';
 
-const NAV_COLS = [
-  {
-    heading: "Company",
-    links: [
-      { label: "Home", href: "/" },
-      { label: "About Us", href: "/about" },
-      { label: "Our Works", href: "/our-work" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
-  {
-    heading: "Services",
-    links: [
-      { label: "Web Design & Development", href: "/services" },
-      { label: "Custom Software", href: "/services" },
-      { label: "Digital Marketing", href: "/services" },
-      { label: "Social Media", href: "/services" },
-      { label: "Content Creation", href: "/services" },
-      { label: "Branding", href: "/services" },
-    ],
-  },
-  {
-    heading: "Legal",
-    links: [
-      { label: "Privacy Policy", href: "/privacy-policy" },
-      { label: "Terms & Conditions", href: "/terms" },
-    ],
-  },
-];
+function initWiggle(element, intensity) {
+    const target = element.querySelector('[data-wiggle-target]') || element;
+    gsap.set(target, { transformOrigin: 'center center' });
+    let tween;
+    const onEnter = () => { tween = gsap.to(target, { rotation: intensity, duration: 0.17, repeat: -1, yoyo: true, ease: 'steps(1)' }); };
+    const onLeave = () => { if (tween) { tween.kill(); gsap.to(target, { rotation: 0, duration: 0.3, ease: 'power2.out' }); } };
+    element.addEventListener('mouseenter', onEnter);
+    element.addEventListener('mouseleave', onLeave);
+    return () => { element.removeEventListener('mouseenter', onEnter); element.removeEventListener('mouseleave', onLeave); };
+}
 
 export default function Footer() {
-  return (
-    <footer
-      className="relative"
-      style={{ background: "transparent" }}
-      aria-label="Site footer"
-    >
-      {/* Top hairline */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "var(--color-green-700)", opacity: 0.4 }}
-      />
+    useEffect(() => {
+        gsap.registerPlugin(ScrollTrigger);
 
-      {/* ── Get In Touch band ── */}
-      <div
-        className="relative py-16 md:py-20"
-        style={{
-          background: "transparent",
-        }}
-      >
-        {/* Gold ambient glow */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 60% 80% at 0% 50%, rgba(246,121,99,0.06), transparent 70%)",
-          }}
-        />
+        // ─── Credits pop-out ───
+        const creditsWrapper = document.querySelector('.footer-credits-wrapper');
+        if (creditsWrapper) {
+            const creditsBox = creditsWrapper.querySelector('.credits-box');
+            const creditsItems = creditsBox.querySelectorAll('.credits-item');
 
-        <div className="relative z-10 max-w-[1400px] mx-auto px-8 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Founder section (cols 1-5) */}
-            <div className="lg:col-span-5 flex flex-col gap-6">
-              <span className="font-label" style={{ color: "var(--color-gold-500)" }}>
-                Get In Touch
-              </span>
+            gsap.set(creditsBox, { visibility: 'visible', width: 'auto', height: 'auto', opacity: 1 });
+            const boxRect = creditsBox.getBoundingClientRect();
+            const fullWidth = boxRect.width;
+            const fullHeight = boxRect.height;
+            const boxHeight = boxRect.height; 
 
-              <div className="flex items-start gap-5">
-                {/* Founder circular photo */}
-                <div
-                  className="relative w-20 h-20 rounded-full flex-shrink-0 overflow-hidden"
-                  style={{ border: "2px solid var(--grid-line-abstract)" }}
-                >
-                  <Image
-                    src="/images/profile/md_sir.jpeg"
-                    alt="Deepak Raj O S — Founder & MD"
-                    fill
-                    sizes="80px"
-                    className="object-cover"
-                  />
+            const creditsBtn = creditsWrapper.querySelector('.footer-credits');
+            const startY = creditsBtn.offsetHeight + 15;
+
+            gsap.set(creditsBox, { visibility: 'hidden', width: 0, height: 0, opacity: 0, y: startY });
+            gsap.set(creditsItems, { y: boxHeight });
+
+            const onEnter = () => {
+                gsap.set(creditsBox, { visibility: 'visible' });
+                gsap.killTweensOf(creditsBox);
+                gsap.killTweensOf(creditsItems);
+
+                gsap.to(creditsBox, { width: fullWidth, height: fullHeight, opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' });
+                gsap.to(creditsItems, { y: 0, duration: 0.5, stagger: 0.04, ease: 'power3.out', delay: 0.1 });
+            };
+
+            const onLeave = () => {
+                gsap.killTweensOf(creditsBox);
+                gsap.killTweensOf(creditsItems);
+
+                gsap.to(creditsBox, {
+                    width: 0, height: 0, opacity: 0, y: startY, duration: 0.35, ease: 'power3.in',
+                    onComplete: () => gsap.set(creditsBox, { visibility: 'hidden' })
+                });
+                gsap.to(creditsItems, { y: boxHeight, duration: 0.4, ease: 'power3.in', stagger: -0.03, delay: 0.1 });
+            };
+
+            creditsWrapper.addEventListener('mouseenter', onEnter);
+            creditsWrapper.addEventListener('mouseleave', onLeave);
+        }
+
+        // ─── Footer sticker logic removed ───
+
+        // ─── Wiggle on footer interactive elements ───
+        const wiggleTargets = [
+            { selector: '.footer-get-in-touch', key: 'jobHeading' },
+            { selector: '.footer-email', key: 'email' },
+            { selector: '.footer-socials a', key: 'socials' },
+            { selector: '.credits-name', key: 'socials' },
+        ];
+        wiggleTargets.forEach(({ selector, key }) => {
+            document.querySelectorAll(selector).forEach(el => initWiggle(el, WIGGLE_CONFIG[key] || 15));
+        });
+
+    }, []);
+
+    return (
+        <div className="footer-inner">
+            <div className="footer-top">
+                {/* Column 1: Get In Touch & Bio */}
+                <div className="footer-column" style={{ flex: '1.5', minWidth: '300px' }}>
+                    <span className="footer-badge footer-get-in-touch" style={{ color: 'var(--color-orange)' }}>GET IN TOUCH</span>
+                    
+                    <div className="footer-profile" style={{ display: 'flex', alignItems: 'center', gap: '15px', marginTop: '15px' }}>
+                        <img src="/images/profile/md_sir.jpeg" alt="Deepak Raj O S" style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
+                        <div>
+                            <h3 style={{ fontSize: '1.4rem', marginBottom: '5px' }}>Deepak Raj O S</h3>
+                            <span style={{ fontSize: '0.85rem', color: 'var(--color-orange)', letterSpacing: '1px', fontWeight: 'bold' }}>FOUNDER & MANAGING DIRECTOR</span>
+                        </div>
+                    </div>
+
+                    <p style={{ fontSize: '0.95rem', lineHeight: '1.6', opacity: '0.9', maxWidth: '95%', marginTop: '10px' }}>
+                        Meet Deepak Raj O S, the Founder & Managing Director of Webnique Digital Solutions Pvt. Ltd. A dynamic professional with a deep passion for digital innovation and storytelling. His vision is to make top-tier digital services accessible to businesses of all sizes — driven by creativity, integrity, and results.
+                    </p>
+
+                    <a href="mailto:contactus@webniqueds.com" className="footer-email" style={{ fontSize: '1.1rem', marginTop: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                        CONTACTUS@WEBNIQUEDS.COM
+                    </a>
+
+                    <div className="footer-socials" id="footer-socials" style={{ marginTop: '15px' }}>
+                        {SOCIAL_ICONS.map(({ href, label, svg }) => (
+                            <a
+                                key={label}
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="single-social w-inline-block"
+                                aria-label={label}
+                                style={{ background: 'rgba(255,255,255,0.1)', borderRadius: '50%', padding: '10px' }}
+                                dangerouslySetInnerHTML={{ __html: svg }}
+                            />
+                        ))}
+                    </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <p
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "1.125rem",
-                      color: "var(--color-green-950)",
-                      fontWeight: 600,
-                      lineHeight: 1.3,
-                    }}
-                  >
-                    Deepak Raj O S
-                  </p>
-                  <span className="font-label" style={{ color: "var(--color-gold-500)" }}>
-                    Founder & Managing Director
-                  </span>
+                {/* Column 2: Company */}
+                <div className="footer-column footer-nav-links">
+                    <span className="footer-badge">COMPANY</span>
+                    <ul>
+                        <li><TransitionLink href="/">HOME</TransitionLink></li>
+                        <li><TransitionLink href="/about">ABOUT US</TransitionLink></li>
+                        <li><TransitionLink href="/our-works">OUR WORKS</TransitionLink></li>
+                        <li><TransitionLink href="/contact">CONTACT</TransitionLink></li>
+                    </ul>
                 </div>
-              </div>
 
-              <p style={{ color: "var(--color-green-800)", lineHeight: 1.75, fontSize: "0.875rem" }}>
-                Meet Deepak Raj O S, the Founder &amp; Managing Director of Webnique
-                Digital Solutions Pvt. Ltd. A dynamic professional with a deep passion
-                for digital innovation and storytelling. His vision is to make top-tier
-                digital services accessible to businesses of all sizes — driven by
-                creativity, integrity, and results.
-              </p>
+                {/* Column 3: Services */}
+                <div className="footer-column footer-nav-links">
+                    <span className="footer-badge">SERVICES</span>
+                    <ul>
+                        <li><TransitionLink href="/services">WEB DESIGN & DEVELOPMENT</TransitionLink></li>
+                        <li><TransitionLink href="/services">CUSTOM SOFTWARE</TransitionLink></li>
+                        <li><TransitionLink href="/services">DIGITAL MARKETING</TransitionLink></li>
+                        <li><TransitionLink href="/services">SOCIAL MEDIA</TransitionLink></li>
+                        <li><TransitionLink href="/services">CONTENT CREATION</TransitionLink></li>
+                        <li><TransitionLink href="/services">BRANDING</TransitionLink></li>
+                    </ul>
+                </div>
 
-              <a
-                href="mailto:contactus@webniqueds.com"
-                className="font-label transition-colors duration-200"
-                style={{ color: "var(--color-green-800)" }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "var(--color-gold-500)")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "var(--color-green-800)")
-                }
-              >
-                contactus@webniqueds.com
-              </a>
-
-              {/* Social icons */}
-              <div className="flex items-center gap-3">
-                {SOCIAL.map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={s.label}
-                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300"
-                    style={{
-                      background: "transparent",
-                      border: "1px solid var(--glass-border)",
-                      color: "var(--color-green-800)",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "var(--color-gold-500)";
-                      e.currentTarget.style.color = "#fff";
-                      e.currentTarget.style.borderColor = "var(--color-gold-500)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "transparent";
-                      e.currentTarget.style.color = "var(--color-green-800)";
-                      e.currentTarget.style.borderColor = "var(--glass-border)";
-                    }}
-                  >
-                    <span style={{ fontSize: "1rem" }}>{s.icon}</span>
-                  </a>
-                ))}
-              </div>
+                {/* Column 4: Legal */}
+                <div className="footer-column footer-nav-links">
+                    <span className="footer-badge">LEGAL</span>
+                    <ul>
+                        <li><TransitionLink href="/privacy-policy">PRIVACY POLICY</TransitionLink></li>
+                        <li><TransitionLink href="/terms-conditions">TERMS & CONDITIONS</TransitionLink></li>
+                    </ul>
+                </div>
             </div>
 
-            {/* Nav columns (cols 7-12) */}
-            <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-8">
-              {NAV_COLS.map((col) => (
-                <div key={col.heading} className="flex flex-col gap-4">
-                  <span
-                    className="font-label"
-                    style={{ color: "var(--color-green-950)", marginBottom: "0.5rem" }}
-                  >
-                    {col.heading}
-                  </span>
-                  {col.links.map((link) => (
-                    <Link
-                      key={link.label}
-                      href={link.href}
-                      className="transition-colors duration-200 font-label"
-                      style={{ color: "var(--color-green-800)", fontSize: "0.8125rem" }}
-                      onMouseEnter={(e) =>
-                        (e.currentTarget.style.color = "var(--color-gold-500)")
-                      }
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.color = "var(--color-green-800)")
-                      }
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
+            {/* Big WEBNIQUE wordmark removed as per user request */}
+            <div className="footer-bottom">
+                {/* Stickers removed along with the logo */}
+
+                {/* Bottom row: credits */}
+                <div className="footer-bottom-row">
+                    <div></div>
+                    <div className="footer-credits-wrapper">
+                        <div className="credits-box">
+                            <div className="credits-content">
+                                <div className="credits-item credit-wiggle">
+                                    <div className="overflow-wrapper"><span className="credits-label">Copyright © 2025</span></div>
+                                    <div className="overflow-wrapper"><span className="credits-name" style={{fontSize:'16px'}}>Webnique Digital Solutions</span></div>
+                                </div>
+                                <div className="credits-item credit-wiggle">
+                                    <div className="overflow-wrapper"><span className="credits-label">All rights reserved.</span></div>
+                                    <div className="overflow-wrapper"><TransitionLink href="/privacy-policy" className="credits-name" style={{fontSize:'16px', marginRight:'10px'}}>Privacy Policy</TransitionLink> <TransitionLink href="/terms-conditions" className="credits-name" style={{fontSize:'16px'}}>Terms & Conditions</TransitionLink></div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" className="footer-credits">credits</a>
+                    </div>
                 </div>
-              ))}
             </div>
-          </div>
         </div>
-      </div>
-
-      {/* ── Bottom bar ── */}
-      <div
-        className="py-6"
-        style={{ borderTop: "1px solid var(--color-green-700)", opacity: 1 }}
-      >
-        <div className="max-w-[1400px] mx-auto px-8 md:px-12 flex items-center justify-between flex-wrap gap-4">
-          {/* Logo */}
-          <div className="relative w-[100px] h-[30px]">
-            <Image
-              src="/images/logo/logo-transparent.png"
-              alt="Webnique Digital Solutions"
-              fill
-              sizes="100px"
-              className="object-contain object-left"
-            />
-          </div>
-
-          {/* Copyright */}
-          <span
-            className="font-label"
-            style={{ color: "var(--color-green-800)", fontSize: "0.75rem", opacity: 0.7 }}
-          >
-            Copyright © 2025 Webnique Digital Solutions Private Limited. All rights reserved.
-          </span>
-
-          {/* Legal links */}
-          <div className="flex items-center gap-6">
-            <Link
-              href="/privacy-policy"
-              className="font-label transition-colors duration-200"
-              style={{ color: "var(--color-green-800)", fontSize: "0.75rem" }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.color = "var(--color-gold-500)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = "var(--color-green-800)")
-              }
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/terms"
-              className="font-label transition-colors duration-200"
-              style={{ color: "var(--color-green-800)", fontSize: "0.75rem" }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.color = "var(--color-gold-500)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = "var(--color-green-800)")
-              }
-            >
-              Terms & Conditions
-            </Link>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
+    );
 }

@@ -1,0 +1,167 @@
+.testimonials-section {
+    position: relative;
+    padding: 10vw 0 5vw 0;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-light); /* Or matching the surrounding bg */
+    color: var(--color-dark);
+}
+
+.testimonials-header {
+    position: relative;
+    text-align: center;
+    margin-bottom: 5vw;
+}
+
+.testimonials-header h2 {
+    font-size: clamp(2rem, 5vw, 5rem);
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.1;
+    position: relative;
+    z-index: 2;
+}
+
+.testimonials-header .text-highlight {
+    font-family: 'Melinda', cursive;
+    text-transform: none;
+    font-size: 1.5em;
+    color: var(--color-orange);
+}
+
+.testimonials-underline {
+    position: absolute;
+    width: 250px;
+    height: 20px;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: left center;
+    color: var(--color-orange);
+    opacity: 0;
+}
+
+.testimonials-marquee-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.testimonials-marquee-row {
+    width: 100vw;
+    overflow: hidden;
+}
+
+.testimonials-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: scroll-marquee 40s linear infinite;
+}
+
+.testimonials-marquee-track.reverse {
+    animation-direction: reverse;
+}
+
+.testimonials-marquee-track:hover {
+    animation-play-state: paused;
+}
+
+.marquee-content {
+    display: flex;
+    gap: 3rem;
+    padding-right: 3rem; /* Same as gap to make the loop seamless */
+}
+
+.testimonial-card {
+    width: 450px;
+    height: 280px;
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--color-light);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.testimonial-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    /* Limit lines */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+}
+
+.testimonial-author {
+    font-family: 'Melinda', cursive;
+    font-size: 1.8rem;
+    font-weight: 400;
+    align-self: flex-end;
+    margin-top: auto;
+}
+
+.ready-to-start {
+    text-align: center;
+    margin-top: 10vw;
+    padding-bottom: 5vw;
+}
+
+.ready-to-start h2 {
+    font-size: clamp(1.5rem, 4vw, 4rem);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.ready-to-start p {
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+    margin: 1rem 0 2rem;
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+.scroll-arrow {
+    font-size: 2rem;
+    animation: bounce 2s infinite;
+}
+
+@keyframes scroll-marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+@media (max-width: 768px) {
+    .testimonial-card {
+        width: 300px;
+        height: 220px;
+        padding: 1.5rem;
+    }
+    .testimonial-text {
+        font-size: 0.95rem;
+        -webkit-line-clamp: 5;
+    }
+    .testimonial-author {
+        font-size: 1.4rem;
+    }
+}

@@ -1,311 +1,276 @@
-"use client";
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+'use client';
 
-const NAV_ITEMS = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Our Works", href: "/our-work" },
-  { label: "Testimonial", href: "/#testi" },
-  { label: "Contact", href: "/contact" },
-];
+import { useEffect } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { WIGGLE_CONFIG } from '@/lib/data';
+import MenuOverlay from './MenuOverlay';
+import TransitionLink from './TransitionLink';
 
-// QUIP dropdown — homepage only
-const QUIP_ITEM = {
-  label: "Products",
-  dropdown: [
-    {
-      label: "QUIP",
-      href: "https://quip.wb-roots.com/",
-      logo: "/images/logo/quip.png",
-      external: true,
-    },
-  ],
-};
+gsap.registerPlugin(ScrollTrigger);
 
-export default function Navbar({ showProducts = false }) {
-  const router = useRouter();
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [productsOpen, setProductsOpen] = useState(false);
+function initWiggle(element, intensity) {
+    const target = element.querySelector('[data-wiggle-target]') || element;
+    gsap.set(target, { transformOrigin: 'center center' });
+    let tween;
+    const onEnter = () => {
+        tween = gsap.to(target, { rotation: intensity, duration: 0.17, repeat: -1, yoyo: true, ease: 'steps(1)' });
+    };
+    const onLeave = () => {
+        if (tween) { tween.kill(); gsap.to(target, { rotation: 0, duration: 0.3, ease: 'power2.out' }); }
+    };
+    element.addEventListener('mouseenter', onEnter);
+    element.addEventListener('mouseleave', onLeave);
+    return () => {
+        element.removeEventListener('mouseenter', onEnter);
+        element.removeEventListener('mouseleave', onLeave);
+    };
+}
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+export default function Navbar() {
+    useEffect(() => {
+        const navbar = document.querySelector('.navbar');
+        const contentSection = document.querySelector('.content-section');
+        const footerEl = document.querySelector('.main-footer');
 
-  // Close mobile on route change
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [router.pathname]);
+        // ② Start white (on-dark) — video is dark background
+        if (navbar) { navbar.classList.add('on-dark'); navbar.classList.remove('on-light'); }
 
-  const isActive = (href) => {
-    if (href === "/") return router.pathname === "/";
-    return router.pathname.startsWith(href);
-  };
+        const updateNavbarColor = () => {
+            if (!navbar || !contentSection || !footerEl) return;
+            const scrollPos = window.scrollY + navbar.offsetHeight / 2;
+            const contentTop = contentSection.getBoundingClientRect().top + window.scrollY;
 
-  return (
-    <>
-      {/* Desktop Navbar */}
-      <motion.header
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-        style={{
-          background: scrolled
-            ? "rgba(239, 235, 227, 0.85)"
-            : "transparent",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          borderBottom: scrolled
-            ? "1px solid rgba(0,0,0,0.05)"
-            : "1px solid transparent",
-          boxShadow: scrolled ? "0 10px 30px -10px rgba(0,0,0,0.05)" : "none",
-        }}
-      >
-        <div
-          className="max-w-[1600px] mx-auto px-8 md:px-12 flex items-center justify-between"
-          style={{ height: scrolled ? "64px" : "80px", transition: "height 0.4s ease" }}
-        >
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
-            <div className="relative w-[160px] h-[48px]">
-              <Image
-                src="/images/logo/logo-transparent.png"
-                alt="Webnique Digital Solutions"
-                fill
-                sizes="160px"
-                className="object-contain object-left"
-                priority
-              />
-            </div>
-          </Link>
+            // Toggle is-scrolled class
+            if (window.scrollY > 50) {
+                navbar.classList.add('is-scrolled');
+            } else {
+                navbar.classList.remove('is-scrolled');
+            }
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="font-label text-ash transition-colors duration-200 relative group"
-                style={{
-                  color: isActive(item.href)
-                    ? "var(--color-gold-500)"
-                    : "var(--color-green-800)",
-                }}
-              >
-                {item.label}
-                {/* Active dot */}
-                {isActive(item.href) && (
-                  <span
-                    className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
-                    style={{ background: "var(--color-gold-500)" }}
-                  />
-                )}
-                {/* Hover underline */}
-                <span
-                  className="absolute -bottom-0.5 left-0 w-0 h-px transition-all duration-300 group-hover:w-full"
-                  style={{ background: "var(--color-gold-500)" }}
-                />
-              </Link>
-            ))}
+            const showreelSection = document.querySelector('#showreel-section');
+            const showreelTop = showreelSection ? showreelSection.getBoundingClientRect().top + window.scrollY : Infinity;
 
-            {/* Products dropdown — homepage only */}
-            {showProducts && (
-              <div className="relative">
-                <button
-                  className="font-label text-ash transition-colors duration-200 flex items-center gap-1"
-                  style={{ color: "var(--color-green-800)" }}
-                  onMouseEnter={() => setProductsOpen(true)}
-                  onMouseLeave={() => setProductsOpen(false)}
-                >
-                  {QUIP_ITEM.label}
-                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
-                    <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-                <AnimatePresence>
-                  {productsOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 8 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute top-full mt-2 left-0 p-2 rounded-xl min-w-[160px]"
-                      style={{
-                        background: "var(--color-green-800)",
-                        border: "1px solid var(--glass-border)",
-                        backdropFilter: "blur(20px)",
-                      }}
-                      onMouseEnter={() => setProductsOpen(true)}
-                      onMouseLeave={() => setProductsOpen(false)}
-                    >
-                      {QUIP_ITEM.dropdown.map((d) => (
-                        <a
-                          key={d.label}
-                          href={d.href}
-                          target={d.external ? "_blank" : undefined}
-                          rel={d.external ? "noreferrer" : undefined}
-                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors duration-200"
-                          style={{ color: "var(--color-green-950)" }}
-                          onMouseEnter={(e) =>
-                            (e.currentTarget.style.background = "transparent")
-                          }
-                          onMouseLeave={(e) =>
-                            (e.currentTarget.style.background = "transparent")
-                          }
-                        >
-                          <div className="relative w-8 h-8 flex-shrink-0">
-                            <Image
-                              src={d.logo}
-                              alt={d.label}
-                              fill
-                              sizes="32px"
-                              className="object-contain"
-                            />
-                          </div>
-                          <span className="font-label text-xs">{d.label}</span>
-                          <svg
-                            className="ml-auto opacity-50"
-                            width="10"
-                            height="10"
-                            viewBox="0 0 10 10"
-                            fill="none"
-                          >
-                            <path
-                              d="M2 8L8 2M8 2H3M8 2v5"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </a>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            )}
-          </nav>
+            const serviceCardsSection = document.querySelector('.service-cards-wrapper');
+            const serviceCardsTop = serviceCardsSection ? serviceCardsSection.getBoundingClientRect().top + window.scrollY : Infinity;
 
-          {/* CTA + Hamburger */}
-          <div className="flex items-center gap-4">
-            <Link
-              href="/contact"
-              className="hidden lg:inline-flex btn-gold focus-visible:outline-gold-500"
-            >
-              Let's Talk
-            </Link>
+            const doubleMarquee = document.querySelector('.Double-marquee');
+            const doubleMarqueeTop = doubleMarquee ? doubleMarquee.getBoundingClientRect().top + window.scrollY : Infinity;
+            const footerTop = footerEl.getBoundingClientRect().top + window.scrollY;
 
-            {/* Hamburger */}
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden flex flex-col gap-1.5 p-2 focus-visible:outline-gold-500"
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            >
-              <motion.span
-                animate={mobileOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                className="block w-6 h-px"
-                style={{ background: "var(--color-green-950)" }}
-              />
-              <motion.span
-                animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-                className="block w-6 h-px"
-                style={{ background: "var(--color-green-950)" }}
-              />
-              <motion.span
-                animate={mobileOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                className="block w-6 h-px"
-                style={{ background: "var(--color-green-950)" }}
-              />
-            </button>
-          </div>
-        </div>
-      </motion.header>
+            if (scrollPos >= footerTop) {
+                navbar.classList.add('on-dark'); navbar.classList.remove('on-light');
+            } else if (scrollPos >= doubleMarqueeTop) {
+                navbar.classList.add('on-light'); navbar.classList.remove('on-dark');
+            } else if (scrollPos >= serviceCardsTop) {
+                navbar.classList.add('on-light'); navbar.classList.remove('on-dark');
+            } else if (scrollPos >= showreelTop) {
+                navbar.classList.add('on-dark'); navbar.classList.remove('on-light');
+            } else if (scrollPos >= contentTop) {
+                navbar.classList.add('on-light'); navbar.classList.remove('on-dark');
+            } else {
+                navbar.classList.add('on-dark'); navbar.classList.remove('on-light');
+            }
+        };
 
-      {/* Mobile Drawer */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, clipPath: "circle(0% at 95% 5%)" }}
-            animate={{ opacity: 1, clipPath: "circle(150% at 95% 5%)" }}
-            exit={{ opacity: 0, clipPath: "circle(0% at 95% 5%)" }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-40 flex flex-col justify-center px-8"
-            style={{ background: "var(--color-green-950)" }}
-          >
-            {/* Noise on drawer */}
-            <div
-              className="absolute inset-0 opacity-[0.03] pointer-events-none"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-              }}
-            />
-            <nav className="relative flex flex-col gap-2">
-              {NAV_ITEMS.map((item, i) => (
-                <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, x: -40 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 + i * 0.06, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <Link
-                    href={item.href}
-                    className="block py-3"
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "clamp(2rem, 6vw, 3.5rem)",
-                      fontWeight: 700,
-                      letterSpacing: "-0.03em",
-                      color: isActive(item.href)
-                        ? "var(--color-gold-500)"
-                        : "var(--color-green-950)",
-                      lineHeight: 1.1,
-                    }}
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                  {/* Hairline between items */}
-                  <div
-                    className="w-full h-px"
-                    style={{ background: "var(--color-green-700)", opacity: 0.4 }}
-                  />
-                </motion.div>
-              ))}
+        window.addEventListener('scroll', updateNavbarColor);
+        updateNavbarColor();
 
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mt-8"
-              >
-                <Link
-                  href="/contact"
-                  className="btn-gold self-start"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  Let's Talk
-                </Link>
-              </motion.div>
+        // ─── Logo Scroll Shrink Animation ───
+        // Removed: Logo is now static in the navbar.
+        const logoTruus = document.querySelector('.logo-truus');
+
+
+        // Wiggle on logo and work button
+        const cleanups = [];
+        if (logoTruus) cleanups.push(initWiggle(logoTruus, WIGGLE_CONFIG.logoTruus));
+        
+        const workContainer = document.querySelector('.logo-work-container');
+        if (workContainer) cleanups.push(initWiggle(workContainer, WIGGLE_CONFIG.logoTruus));
+
+        const overlay = document.querySelector('.nav-overlay');
+        if (overlay) {
+            gsap.set(overlay, { opacity: 0, visibility: 'hidden' });
+        }
+        const showOverlay = () => {
+            if (overlay) {
+                gsap.set(overlay, { visibility: 'visible' });
+                gsap.to(overlay, { opacity: 1, duration: 0.35, ease: 'power2.out' });
+            }
+        };
+        const hideOverlay = () => {
+            if (overlay) {
+                gsap.to(overlay, { opacity: 0, duration: 0.3, ease: 'power2.in', onComplete: () => gsap.set(overlay, { visibility: 'hidden' }) });
+            }
+        };
+
+        // ─── Navbar Right (Work) Hover ───
+        const navRight = document.querySelector('.nav-right');
+        const workBox = document.querySelector('.nav-right .nav-popout');
+        const workBlob = document.querySelector('.nav-bar__work-blob-svg');
+
+        if (navRight && workBox && workBlob) {
+            const workInner = workBox.querySelector('.nav-popout-inner');
+            const workItems = workInner ? Array.from(workInner.children) : [];
+
+            // Temporarily show to measure both the box AND the blob icon center
+            gsap.set(workBox, { visibility: 'visible', scale: 1, opacity: 1 });
+            const boxRect = workBox.getBoundingClientRect();
+            const blobRect = workBlob.getBoundingClientRect();
+            // Icon center relative to the box's own top-left
+            const originX = (blobRect.left + blobRect.width / 2) - boxRect.left;
+            const originY = (blobRect.top + blobRect.height / 2) - boxRect.top;
+            const workOrigin = `${originX}px ${originY}px`;
+
+            // Start collapsed, scaling FROM the icon center
+            gsap.set(workBox, {
+                visibility: 'hidden',
+                scale: 0,
+                opacity: 0,
+                transformOrigin: workOrigin
+            });
+            gsap.set(workItems, { y: 10, opacity: 0 });
+            gsap.set(workBlob, { transformOrigin: 'center center' });
+
+            const onEnterRight = () => {
+                gsap.killTweensOf(workBox);
+                gsap.killTweensOf(workItems);
+                gsap.killTweensOf(workBlob);
+                showOverlay();
+
+                // Fast 360 blob spin — like it's spinning then releasing the box
+                gsap.to(workBlob, { rotation: '+=360', duration: 0.7, ease: 'power3.inOut' });
+
+                gsap.set(workBox, { visibility: 'visible' });
+                // Box grows out smoothly from the icon center
+                gsap.fromTo(workBox,
+                    { scale: 0, opacity: 0 },
+                    { scale: 1, opacity: 1, duration: 0.8, ease: 'expo.out' }
+                );
+                // Items emerge while box is growing
+                gsap.to(workItems, { y: 0, opacity: 1, duration: 0.45, stagger: 0.06, ease: 'power3.out', delay: 0.18 });
+            };
+
+            const onLeaveRight = () => {
+                gsap.killTweensOf(workBox);
+                gsap.killTweensOf(workItems);
+                gsap.killTweensOf(workBlob);
+                hideOverlay();
+
+                // Items fade quickly
+                gsap.to(workItems, { y: 10, opacity: 0, duration: 0.15, ease: 'power2.in' });
+                // Box shrinks back into icon smoothly
+                gsap.to(workBox, {
+                    scale: 0,
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: 'expo.in',
+                    delay: 0.05,
+                    onComplete: () => gsap.set(workBox, { visibility: 'hidden' })
+                });
+            };
+
+            navRight.addEventListener('mouseenter', onEnterRight);
+            navRight.addEventListener('mouseleave', onLeaveRight);
+            cleanups.push(() => {
+                navRight.removeEventListener('mouseenter', onEnterRight);
+                navRight.removeEventListener('mouseleave', onLeaveRight);
+            });
+        }
+
+        // ─── Work Item: badge wiggle + image tilt on hover ───
+        const workItems = document.querySelectorAll('.nav-work-item');
+        workItems.forEach(item => {
+            const badge = item.querySelector('.nav-work-badge');
+            const img = item.querySelector('.nav-work-item__img');
+            let wiggleTween;
+
+            const onItemEnter = () => {
+                // Wiggle badge intensity 2
+                if (badge) {
+                    gsap.set(badge, { transformOrigin: 'center center' });
+                    wiggleTween = gsap.to(badge, { rotation: 5, duration: 0.15, repeat: -1, yoyo: true, ease: 'steps(1)' });
+                }
+                // Tilt image slightly right
+                if (img) gsap.to(img, { rotation: 16, scale: 1.15, duration: 0.25, ease: 'power2.out' });
+            };
+            const onItemLeave = () => {
+                if (wiggleTween) { wiggleTween.kill(); }
+                if (badge) gsap.to(badge, { rotation: 0, duration: 0.3, ease: 'power2.out' });
+                if (img) gsap.to(img, { rotation: 0, scale: 1, duration: 0.3, ease: 'power2.out' });
+            };
+            item.addEventListener('mouseenter', onItemEnter);
+            item.addEventListener('mouseleave', onItemLeave);
+            cleanups.push(() => {
+                item.removeEventListener('mouseenter', onItemEnter);
+                item.removeEventListener('mouseleave', onItemLeave);
+            });
+        });
+
+        // ─── All Our Work btn: wiggle intensity 4 (bubble handled by CursorBubble) ───
+        const workBtn = document.querySelector('.nav-work-btn');
+        if (workBtn) {
+            let btnWiggle;
+            const onBtnEnter = () => {
+                const btnText = workBtn.querySelector('.nav-work-btn__text');
+                if (btnText) {
+                    gsap.set(btnText, { transformOrigin: 'center center', display: 'inline-block' });
+                    btnWiggle = gsap.to(btnText, { rotation: 4, duration: 0.12, repeat: -1, yoyo: true, ease: 'steps(1)' });
+                }
+            };
+            const onBtnLeave = () => {
+                const btnText = workBtn.querySelector('.nav-work-btn__text');
+                if (btnWiggle) { btnWiggle.kill(); }
+                if (btnText) gsap.to(btnText, { rotation: 0, duration: 0.3, ease: 'power2.out' });
+            };
+            workBtn.addEventListener('mouseenter', onBtnEnter);
+            workBtn.addEventListener('mouseleave', onBtnLeave);
+            cleanups.push(() => {
+                workBtn.removeEventListener('mouseenter', onBtnEnter);
+                workBtn.removeEventListener('mouseleave', onBtnLeave);
+            });
+        }
+
+        return () => {
+            window.removeEventListener('scroll', updateNavbarColor);
+            cleanups.forEach(fn => fn && fn());
+        };
+    }, []);
+
+    return (
+        <>
+            <div className="nav-overlay"></div>
+            <nav className="navbar">
+                <div className="nav-left" style={{ cursor: "url('/assets/Cursor SVG/cursor-pointer.svg') 12 12, pointer" }}>
+                    <TransitionLink href="/" style={{ display: 'flex' }}>
+                        <img className="logo-truus" src="/images/logo/logo-transparent.png" alt="Webnique" />
+                    </TransitionLink>
+                </div>
+                <div className="nav-right" style={{ cursor: "url('/assets/Cursor SVG/cursor-pointer.svg') 12 12, pointer" }}>
+                    <div className="nav-hover-trigger">
+                        <TransitionLink href="/our-works" className="logo-work-container" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+                            <img src="/assets/Navbar SVG/nav-work-blob.svg" width="60" height="55" className="nav-bar__work-blob-svg" alt="" aria-hidden="true" />
+                            <span className="logo-work-text">work</span>
+                        </TransitionLink>
+
+                        {/* Pop-out Box for Right Side */}
+                        <div className="nav-popout nav-work-box">
+                            <div className="nav-popout-inner">
+                                <div className="nav-companies-wrapper">
+                                    <span className="nav-company-pill badge-maroon">Camera Service Centre</span>
+                                    <span className="nav-company-pill badge-pink">Car Fit</span>
+                                    <span className="nav-company-pill badge-green">My Roti Bowl</span>
+                                    <span className="nav-company-pill badge-orange">The Sustainability Studio</span>
+                                    <span className="nav-company-pill badge-blue">Voguish Vibe</span>
+                                </div>
+                                <TransitionLink href="/our-works" className="nav-work-btn" data-wiggle-target>
+                                    View all projects
+                                </TransitionLink>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </nav>
-
-            {/* Corner label */}
-            <div className="absolute bottom-8 left-8">
-              <span className="font-label text-ash opacity-40 text-[11px]">
-                India | New Zealand
-              </span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  );
+        </>
+    );
 }

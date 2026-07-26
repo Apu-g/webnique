@@ -1,0 +1,21 @@
+/* ─── Global SVG Page Transition ───────────────────────────────────────────── */
+.global-transition-svg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.5);
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 99999; /* Ensure it is above everything */
+}
+
+.global-transition-svg svg {
+    width: 100%;
+    height: 100%;
+}
+
+.global-transition-svg path {
+    stroke-dashoffset: 99999;
+    stroke-dasharray: 99999;
+}

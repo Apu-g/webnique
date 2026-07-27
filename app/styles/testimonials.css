@@ -26,7 +26,7 @@
     font-family: 'Melinda', cursive;
     text-transform: none;
     font-size: 1.5em;
-    color: var(--color-orange);
+    color: var(--color-gold);
 }
 
 .testimonials-underline {
@@ -37,7 +37,7 @@
     left: 50%;
     transform: translateX(-50%) scaleX(0);
     transform-origin: left center;
-    color: var(--color-orange);
+    color: var(--color-gold);
     opacity: 0;
 }
 

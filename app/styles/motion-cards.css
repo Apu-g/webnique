@@ -115,28 +115,28 @@
 .motion-card__card-content {
     width: 100%;
     height: 100%;
-    background-color: #f7f4f2;
+    background-color: var(--bg-color);
     border-radius: 0.375rem;
     padding: 1.5vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.04);
 }
 
 .motion-card__step-num {
     font-family: 'Epilogue', sans-serif;
     font-size: 3vw;
     font-weight: 800;
-    color: var(--color-orange);
+    color: var(--color-gold);
     margin-bottom: 1vw;
     line-height: 1;
 }
 
 .motion-card__card--1 .motion-card__step-num { color: var(--color-green); }
-.motion-card__card--2 .motion-card__step-num { color: var(--color-orange); }
-.motion-card__card--3 .motion-card__step-num { color: var(--color-pink); }
-.motion-card__card--4 .motion-card__step-num { color: var(--color-lightblue); }
+.motion-card__card--2 .motion-card__step-num { color: var(--color-gold); }
+.motion-card__card--3 .motion-card__step-num { color: var(--color-maroon); }
+.motion-card__card--4 .motion-card__step-num { color: var(--color-darkblue); }
 
 .motion-card__step-title {
     font-family: 'Epilogue', sans-serif;

@@ -13,19 +13,22 @@
 
 /* ─── Design Tokens ─────────────────────────────────────────────────────────── */
 :root {
-    --color-green: #29725f;
-    --color-lightblue: #82a0ff;
-    --color-darkblue: #4b69f0;
-    --color-lightgreen: #e6fab9;
-    --color-orange: #f5693c;
-    --color-maroon: #a0325a;
-    --color-pink: #f0befa;
-    --bg-color: #f0ebe6;
+    --color-gold: #c9a96e;
+    --color-gold-light: #dfc99a;
+    --color-gold-dark: #a68642;
+    --color-green: #7a9e7e;
+    --color-lightblue: #a8b8cc;
+    --color-darkblue: #5c6b7a;
+    --color-lightgreen: #d8dcc8;
+    --color-orange: #c9a96e;
+    --color-maroon: #9e7a7a;
+    --color-pink: #dcc8c8;
+    --bg-color: #f5f1eb;
     --color-white: #ffffff;
     --color-black: #000000;
-    --color-dark: #1a1a1a;
-    --color-black-soft: #111111;
-    --color-black-deep: #0a0a0a;
+    --color-dark: #2c2a26;
+    --color-black-soft: #1a1815;
+    --color-black-deep: #121010;
 }
 
 /* ─── Reset ─────────────────────────────────────────────────────────────────── */
@@ -36,8 +39,8 @@
 }
 
 ::selection {
-    background-color: var(--color-pink);
-    color: var(--color-black);
+    background-color: var(--color-gold-light);
+    color: var(--color-dark);
 }
 
 /* Prevent selection on non-text elements */

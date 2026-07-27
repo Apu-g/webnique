@@ -92,8 +92,8 @@
 }
 
 .card-charcoal {
-    background-color: #333333;
-    color: var(--color-orange);
+    background-color: var(--color-black-soft);
+    color: var(--color-gold);
     left: calc(50% + 345px);
     top: 90px;
     transform: rotate(-4deg);

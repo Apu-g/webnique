@@ -182,30 +182,30 @@
 }
 
 .badge-maroon {
-    background-color: #B1536E;
+    background-color: var(--color-maroon);
 }
 
 .badge-pink {
-    background-color: var(--color-pink, #EBB6F4);
+    background-color: var(--color-pink);
 }
 
 .badge-green {
-    background-color: var(--color-green, #4ade80);
+    background-color: var(--color-green);
 }
 
 .badge-orange {
-    background-color: var(--color-orange, #f97316);
+    background-color: var(--color-gold);
 }
 
 .badge-blue {
-    background-color: var(--color-lightblue, #60a5fa);
+    background-color: var(--color-lightblue);
 }
 
 .nav-work-btn {
     display: block;
     text-align: center;
-    background-color: var(--color-black);
-    color: var(--color-white);
+    background-color: var(--color-dark);
+    color: var(--color-gold-light);
     padding: 20px;
     border-radius: 12px;
     font-weight: 800;

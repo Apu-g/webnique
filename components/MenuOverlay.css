@@ -11,7 +11,7 @@
 }
 
 .nav-toggle-menu {
-    color: var(--base-300, #c9f31d);
+    color: var(--color-gold);
 }
 
 .nav-toggle-close {
@@ -75,7 +75,7 @@
 }
 
 .menu-col p {
-    color: #c9f31d;
+    color: var(--color-gold);
     margin-bottom: 1rem;
     text-transform: uppercase;
     font-size: 0.7rem;

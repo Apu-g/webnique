@@ -31,5 +31,7 @@
 /* Global SVG Transition                    */
 @import './styles/our-works.css';
 /* Our Works page                           */
+@import './styles/products-section.css';
+/* Products section (Quip + WBFlow)         */
 @import './styles/responsive.css';
 /* All media queries (tablet + mobile)      */

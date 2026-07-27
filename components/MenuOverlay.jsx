@@ -135,7 +135,8 @@ export default function MenuOverlay() {
                     <a href="/">home</a>
                     <a href="#about">about</a>
                     <a href="#services">services</a>
-                    <a href="https://quip.wb-roots.com/" target="_blank" rel="noreferrer">products</a>
+                    <a href="https://quip.wb-roots.com/" target="_blank" rel="noreferrer">quip</a>
+                    <a href="https://wbflow.wb-roots.com/" target="_blank" rel="noreferrer">wbflow</a>
                     <a href="#our-works">our works</a>
                     <a href="#contact">contact</a>
                 </div>

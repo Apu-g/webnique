@@ -242,9 +242,6 @@ export default function Navbar() {
             <div className="nav-overlay"></div>
             <nav className="navbar">
                 <div className="nav-left">
-                    <TransitionLink href="/" style={{ display: 'flex' }}>
-                        <img className="logo-truus" src="/images/logo/logo-transparent.png" alt="Webnique" />
-                    </TransitionLink>
                 </div>
 
                 {/* Desktop: Work popout */}

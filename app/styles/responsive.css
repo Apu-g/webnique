@@ -89,6 +89,15 @@
         height: auto;
     }
 
+    .vimeo-hero__logo {
+        top: 16px;
+        left: 16px;
+    }
+
+    .vimeo-hero__logo .logo-truus {
+        width: 100px;
+    }
+
     /* Hide desktop nav-right (work popout) on mobile */
     .nav-right {
         display: none;

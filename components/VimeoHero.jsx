@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 
+import TransitionLink from './TransitionLink';
+
 export default function VimeoHero() {
     const iframeRef = useRef(null);
     const playerRef = useRef(null);
@@ -59,8 +61,23 @@ export default function VimeoHero() {
                     style={{ objectFit: 'cover', backgroundColor: '#111' }}
                 />
 
+                {/* Animated moving background ambient orbs & mesh grid */}
+                <div className="vimeo-hero__bg-animation">
+                    <div className="vimeo-hero__orb vimeo-hero__orb--1" />
+                    <div className="vimeo-hero__orb vimeo-hero__orb--2" />
+                    <div className="vimeo-hero__orb vimeo-hero__orb--3" />
+                    <div className="vimeo-hero__grid-overlay" />
+                </div>
+
                 {/* Gradient fade */}
                 <div className="vimeo-hero__fade" />
+
+                {/* Logo — hero only, not sticky */}
+                <div className="vimeo-hero__logo">
+                    <TransitionLink href="/" style={{ display: 'flex' }}>
+                        <img className="logo-truus" src="/images/logo/logo-transparent.png" alt="Webnique" />
+                    </TransitionLink>
+                </div>
 
                 {/* Center Title - Animated on load */}
                 <div className="vimeo-hero__center-title" ref={centerTitleRef}>

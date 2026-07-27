@@ -83,10 +83,13 @@ export default function Footer() {
             <div className="footer-top">
                 {/* Column 1: Get In Touch & Bio */}
                 <div className="footer-column" style={{ flex: '1.5', minWidth: '300px' }}>
-                    <span className="footer-badge footer-get-in-touch" style={{ color: 'var(--color-orange)' }}>GET IN TOUCH</span>
+                    <div className="footer-logo" style={{ marginBottom: '20px' }}>
+                        <img src="/images/logo/logo-transparent.png" alt="Webnique" style={{ height: '50px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+                    </div>
+                    <span className="footer-badge footer-get-in-touch" style={{ color: 'var(--color-gold)' }}>GET IN TOUCH</span>
                     
                     <div className="footer-profile" style={{ display: 'flex', alignItems: 'center', gap: '15px', marginTop: '15px' }}>
-                        <img src="/images/profile/md_sir.jpeg" alt="Deepak Raj O S" style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
+                        <img src="/images/profile/md_sir.jpeg" alt="Deepak Raj O S" style={{ width: '120px', height: '120px', borderRadius: '50%', objectFit: 'cover' }} />
                         <div>
                             <h3 style={{ fontSize: '1.4rem', marginBottom: '5px' }}>Deepak Raj O S</h3>
                             <span style={{ fontSize: '0.85rem', color: 'var(--color-orange)', letterSpacing: '1px', fontWeight: 'bold' }}>FOUNDER & MANAGING DIRECTOR</span>

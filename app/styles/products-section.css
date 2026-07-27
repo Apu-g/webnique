@@ -1,0 +1,210 @@
+/* ─── Products Section ─────────────────────────────────────────────────────── */
+.products-section {
+    position: relative;
+    width: 100%;
+    padding: 140px 60px 100px;
+    background-color: var(--bg-color);
+    overflow: hidden;
+}
+
+.products__inner {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+.products__header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.products__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--color-gold-dark);
+    margin-bottom: 24px;
+}
+
+.products__eyebrow-line {
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--color-gold-dark);
+    opacity: 0.4;
+}
+
+.products__title {
+    font-family: 'Epilogue', sans-serif;
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -3px;
+    color: var(--color-dark);
+}
+
+.products__title--italic {
+    font-family: 'Times New Roman', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-gold);
+    letter-spacing: -1px;
+}
+
+/* ─── Cards ──────────────────────────────────────────────────────────────── */
+.products__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+}
+
+.products__card,
+.products__card:link,
+.products__card:visited {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 48px 44px;
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    cursor: url("/assets/Cursor SVG/cursor-pointer.svg") 12 12, pointer;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+
+.products__card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.products__card--charcoal {
+    background-color: var(--color-black-soft);
+    color: var(--color-white);
+}
+
+.products__card--orange {
+    background-color: var(--color-gold);
+    color: var(--color-dark);
+}
+
+.products__card-number {
+    font-family: 'Epilogue', sans-serif;
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+}
+
+.products__card--charcoal .products__card-number {
+    color: var(--color-gold);
+    opacity: 0.5;
+}
+
+.products__card--orange .products__card-number {
+    color: var(--color-dark);
+    opacity: 0.25;
+}
+
+.products__card-name {
+    font-family: 'Epilogue', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+}
+
+.products__card--charcoal .products__card-name {
+    color: var(--color-white);
+}
+
+.products__card--orange .products__card-name {
+    color: var(--color-dark);
+}
+
+.products__card-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1.7;
+    margin-bottom: 36px;
+    flex: 1;
+}
+
+.products__card--charcoal .products__card-desc {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.products__card--orange .products__card-desc {
+    color: rgba(44, 42, 38, 0.85);
+}
+
+.products__card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: gap 0.3s ease;
+}
+
+.products__card--charcoal .products__card-cta {
+    color: var(--color-gold);
+}
+
+.products__card--orange .products__card-cta {
+    color: var(--color-dark);
+}
+
+.products__card:hover .products__card-cta {
+    gap: 16px;
+}
+
+/* ─── Footer Text ────────────────────────────────────────────────────────── */
+.products__footer-text {
+    text-align: center;
+    margin-top: 60px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    color: var(--color-dark);
+    opacity: 0.7;
+    letter-spacing: -0.2px;
+}
+
+.products__footer-text strong {
+    color: var(--color-gold-dark);
+    font-weight: 700;
+    opacity: 1;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .products-section {
+        padding: 80px 24px 60px;
+    }
+
+    .products__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .products__card {
+        padding: 36px 32px;
+    }
+
+    .products__card-number {
+        font-size: 3rem;
+    }
+
+    .products__card-name {
+        font-size: 1.8rem;
+    }
+}

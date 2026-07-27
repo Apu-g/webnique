@@ -12,6 +12,23 @@
     height: 55px;
 }
 
+.navbar.is-scrolled .logo-work-container {
+    width: auto;
+    height: auto;
+    padding: 6px 16px 6px 10px;
+    background-color: var(--color-dark);
+    border-radius: 40px;
+    gap: 4px;
+}
+
+.navbar.is-scrolled .logo-work-text {
+    color: var(--color-white);
+}
+
+.navbar.is-scrolled .logo-work-text:hover {
+    color: var(--color-gold);
+}
+
 .nav-bar__work-blob-svg {
     position: absolute;
     top: 0;
@@ -19,6 +36,10 @@
     width: 100%;
     height: 100%;
     z-index: 1;
+}
+
+.navbar.is-scrolled .nav-bar__work-blob-svg {
+    color: var(--color-white);
 }
 
 .logo-work-text {
@@ -44,7 +65,13 @@
     padding: 30px 80px; /* Increased padding */
     background: transparent;
     z-index: 1000;
-    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar.is-scrolled {
+    background-color: var(--bg-color);
+    color: var(--color-dark);
 }
 
 .navbar.on-dark {
@@ -55,34 +82,27 @@
     color: var(--color-dark);
 }
 
-
-
-.logo-truus {
-    display: block;
-    width: 140px; /* Increased size */
-    height: auto;
-    object-fit: contain;
+.logo-work-text {
+    transition: color 0.3s ease;
+    -webkit-text-stroke: 1.5px var(--color-dark);
+    color: transparent;
 }
 
-.logo-truus path,
-.nav-bar__whatsapp-svg path {
-    fill: currentColor;
-    transition: fill 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+.navbar .logo-work-text:hover {
+    -webkit-text-stroke: 0px;
+    color: var(--color-gold);
 }
 
-.nav-bar__whatsapp-svg {
-    width: 32px;
-    height: auto;
-    display: block;
-    color: inherit;
+.navbar.is-scrolled .logo-work-text {
+    -webkit-text-stroke: 0px;
+    color: var(--color-white);
+}
+
+.navbar.is-scrolled .logo-work-text:hover {
+    color: var(--color-gold);
 }
 
 
-/* VimeoHero sits directly inside main-header — no extra wrapper needed */
-.main-header {
-    width: 100%;
-    position: relative;
-}
 
 /* ─── Full-screen dark overlay when navbar popout is open ─── */
 .nav-overlay {
@@ -90,7 +110,6 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.35);
     z-index: 99;
-    /* Just below the popout (z-index: 100) */
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -110,7 +129,7 @@
     visibility: hidden;
     pointer-events: none;
     z-index: 100;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .nav-popout-inner {

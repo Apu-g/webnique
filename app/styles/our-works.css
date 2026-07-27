@@ -1,7 +1,8 @@
 /* ─── Our Works Page Styles ────────────────────────────────────────────── */
 
 .our-works-container {
-    background-color: #fff;
+    background-color: var(--bg-color);
+    color: var(--color-dark);
     min-height: 100vh;
     overflow-x: hidden;
 }
@@ -13,7 +14,7 @@
     left: 0;
     width: 100%;
     height: 100svh;
-    background-color: #111;
+    background-color: var(--color-black-soft);
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
     will-change: clip-path;
     overflow: hidden;
@@ -75,7 +76,7 @@
     text-align: center;
     font-size: 0.8rem;
     text-transform: uppercase;
-    font-family: var(--font-epilogue);
+    font-family: 'Epilogue', sans-serif;
 }
 
 .ow-preloader-header {
@@ -97,7 +98,7 @@
     font-weight: 800;
     line-height: 0.9;
     display: block;
-    font-family: var(--font-epilogue);
+    font-family: 'Epilogue', sans-serif;
 }
 
 .ow-hero {
@@ -117,7 +118,8 @@
     font-size: 5rem;
     text-transform: uppercase;
     font-weight: 800;
-    font-family: var(--font-epilogue);
+    font-family: 'Epilogue', sans-serif;
+    color: var(--color-dark);
 }
 
 .ow-divider {

@@ -13,8 +13,7 @@ export default function TransitionScribble() {
         if (!logoTruusClickable || !transitionScribblePath || !transitionScribbleSvg) return;
 
         const transitionColors = [
-            'var(--color-green)', 'var(--color-lightblue)', 'var(--color-darkblue)',
-            'var(--color-lightgreen)', 'var(--color-orange)', 'var(--color-maroon)', 'var(--color-pink)'
+            'var(--color-black)'
         ];
 
         const runScribbleAnimation = (e) => {
@@ -33,8 +32,7 @@ export default function TransitionScribble() {
             const randomColor = transitionColors[Math.floor(Math.random() * transitionColors.length)];
             transitionScribbleSvg.style.color = randomColor;
 
-            const lightColors = ['var(--color-lightblue)', 'var(--color-lightgreen)', 'var(--color-pink)'];
-            const logoColor = lightColors.includes(randomColor) ? '#000' : '#fff';
+            const logoColor = '#fff';
 
             let transitionLogo = document.querySelector('.transition-logo');
             if (!transitionLogo) {

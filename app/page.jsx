@@ -14,6 +14,7 @@ import CursorBubble from '@/components/CursorBubble';
 import SmoothScroll from '@/components/SmoothScroll';
 
 import HorizontalWords from '@/components/HorizontalWords';
+import ProductsSection from '@/components/ProductsSection';
 
 export default function Home() {
     return (
@@ -34,6 +35,7 @@ export default function Home() {
                 <div className="content-section service-cards-wrapper">
                     <ServiceCards />
                 </div>
+                <ProductsSection />
             </main>
             <section className="Double-marquee">
                 <DoubleMarquee />

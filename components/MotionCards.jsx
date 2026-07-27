@@ -12,49 +12,51 @@ export default function MotionCards() {
     const containerRef = useRef(null);
 
     useLayoutEffect(() => {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
         const ctx = gsap.context(() => {
-            // Inertia on cards
-            const cards = document.querySelectorAll(".motion-card__card");
-            cards.forEach((card) => {
-                let lastX = 0;
-                let lastY = 0;
-                let speedX = 0;
-                let speedY = 0;
+            // Inertia on cards — desktop only
+            if (!isMobile) {
+                const cards = document.querySelectorAll(".motion-card__card");
+                cards.forEach((card) => {
+                    let lastX = 0;
+                    let lastY = 0;
+                    let speedX = 0;
+                    let speedY = 0;
 
-                const startRotation = gsap.getProperty(card, "rotation");
-                const startX = gsap.getProperty(card, "x");
-                const startY = gsap.getProperty(card, "y");
+                    const startRotation = gsap.getProperty(card, "rotation");
+                    const startX = gsap.getProperty(card, "x");
+                    const startY = gsap.getProperty(card, "y");
 
-                const onMove = (e) => {
-                    speedX = e.clientX - lastX;
-                    speedY = e.clientY - lastY;
-                    lastX = e.clientX;
-                    lastY = e.clientY;
-                };
+                    const onMove = (e) => {
+                        speedX = e.clientX - lastX;
+                        speedY = e.clientY - lastY;
+                        lastX = e.clientX;
+                        lastY = e.clientY;
+                    };
 
-                const onEnter = (e) => {
-                    speedX = 0;
-                    speedY = 0;
-                    lastX = e.clientX;
-                    lastY = e.clientY;
-                };
+                    const onEnter = (e) => {
+                        speedX = 0;
+                        speedY = 0;
+                        lastX = e.clientX;
+                        lastY = e.clientY;
+                    };
 
-                const onLeave = () => {
-                    gsap.to(card, {
-                        inertia: {
-                            x: { velocity: speedX * 20, end: startX },
-                            y: { velocity: speedY * 20, end: startY },
-                            rotation: { velocity: speedX * 1.5, end: startRotation },
-                        },
-                    });
-                };
+                    const onLeave = () => {
+                        gsap.to(card, {
+                            inertia: {
+                                x: { velocity: speedX * 20, end: startX },
+                                y: { velocity: speedY * 20, end: startY },
+                                rotation: { velocity: speedX * 1.5, end: startRotation },
+                            },
+                        });
+                    };
 
-                card.addEventListener("mousemove", onMove);
-                card.addEventListener("mouseenter", onEnter);
-                card.addEventListener("mouseleave", onLeave);
-            });
-
-            // Floating labels removed
+                    card.addEventListener("mousemove", onMove);
+                    card.addEventListener("mouseenter", onEnter);
+                    card.addEventListener("mouseleave", onLeave);
+                });
+            }
 
             // Entry Animations: Sticker Pop & Underline Draw
             const tl = gsap.timeline({
@@ -86,7 +88,6 @@ export default function MotionCards() {
         <section
             ref={sectionRef}
             className="motion-card-section" id="motion-card-section">
-            {/* ─── Part 1: Bold Heading Text with SVG Sticker Placeholders ─── */}
             <div className="motion-card__heading">
                 <h2 className="motion-card__title">
                     From Vision
@@ -95,7 +96,6 @@ export default function MotionCards() {
                 </h2>
                 <p className="motion-card__subtitle">
                     Our Process
-                    {/* SVG sticker placeholder — top-right area */}
                     <span className="motion-card__sticker motion-card__sticker--top">
                         <img
                             src="/assets/Footer-Sticker SVG/footer-sticker-hands.svg"
@@ -109,9 +109,7 @@ export default function MotionCards() {
                 </svg>
             </div>
 
-            {/* ─── Part 2: Cards with Colorful Bars & Blue Blob ─── */}
             <div className="motion-card__cards-area">
-                {/* Blue SVG blob behind everything */}
                 <div className="motion-card__blob">
                     <img
                         src="/assets/MotionCard SVG/motion-card-blob.svg"
@@ -120,8 +118,6 @@ export default function MotionCards() {
                     />
                 </div>
 
-
-                {/* 4 Photo Cards */}
                 <div ref={containerRef} className="motion-card__cards">
                     <div className="motion-card__card motion-card__card--1">
                         <div className="motion-card__card-content">
@@ -155,10 +151,8 @@ export default function MotionCards() {
                         </div>
                     </div>
                 </div>
-
             </div>
 
-            {/* ─── Part 3: Bottom Paragraph Text ─── */}
             <div className="motion-card__footer-text">
                 <p className="motion-card__description">
                     We're more than just a digital agency -- we're your creative growth partners. 

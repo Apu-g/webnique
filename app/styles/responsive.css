@@ -1,131 +1,667 @@
-/* ─── Tablet (769px – 1200px) ────────────────────────────────────────────── */
-@media (min-width: 769px) and (max-width: 1200px) {
-    .cards-wrapper {
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 50px;
-        padding-bottom: 50px;
-        gap: 30px;
-        overflow: visible;
-    }
+/* ═══════════════════════════════════════════════════════════════════════════════
+   responsive.css — Mobile-First Responsive Overhaul
+   
+   Breakpoints:
+   - 320px-360px:  Small phones
+   - 361px-390px:  Standard phones (iPhone 12/13/14)
+   - 391px-430px:  Large phones (iPhone Pro Max, Pixel)
+   - 431px-480px:  Small tablets / large phones
+   - 481px-640px:  Tablets portrait
+   - 641px-768px:  Tablets / small laptops
+   - 769px-1024px: Tablets landscape / small desktops
+   - 1025px-1280px: Standard desktops
+   - 1281px-1440px: Large desktops
+   - 1441px-1920px: Extra large desktops
+   - 1921px+:       Ultra wide
+   ═══════════════════════════════════════════════════════════════════════════════ */
 
-    .card {
-        position: relative;
-        left: auto !important;
-        top: auto !important;
-        transform: none !important;
-        width: 90%;
-        max-width: 400px;
-        height: auto;
-        min-height: 400px;
-        margin-bottom: 20px;
-    }
-}
-
-/* ─── Medium screens (≤ 900px) ───────────────────────────────────────────── */
-@media (max-width: 900px) {
-    .footer-top {
-        flex-direction: column;
-        gap: 60px;
-    }
-
-    .footer-column h3,
-    .footer-column address,
-    .footer-email {
-        font-size: 1.5rem;
-    }
-
-    .footer-big-text {
-        font-size: 40vw;
-    }
-}
-
-/* ─── Mobile (≤ 768px) ───────────────────────────────────────────────────── */
+/* ─── Global Mobile Overrides ──────────────────────────────────────────────── */
 @media (max-width: 768px) {
 
-    /* ── Navbar ─────────────────────── */
+    /* Hide desktop-only custom cursors on touch devices */
+    body,
+    .navbar,
+    .card,
+    .card-title,
+    .card-list li,
+    .footer-column h3,
+    .footer-email,
+    .footer-nav-links a,
+    .footer-socials a,
+    .footer-credits,
+    .nav-company-pill,
+    .nav-work-btn,
+    .logo-work-container,
+    .nav-right,
+    .vimeo-hero,
+    .vimeo-hero__title,
+    .vimeo-hero__title *,
+    .vimeo-hero__btn,
+    .main-title,
+    .credits-name,
+    .motion-card__title,
+    .motion-card__description {
+        cursor: auto !important;
+    }
+
+    /* Hide cursor bubble on mobile */
+    .cursor-bubble {
+        display: none !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+
+    /* Hide mute bubble on mobile */
+    .vimeo-mute-bubble {
+        display: none !important;
+    }
+
+    /* Smooth scrolling behavior for mobile */
+    html {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Prevent horizontal overflow globally */
+    body {
+        overflow-x: hidden;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    /* Selection color */
+    ::selection {
+        background-color: var(--color-pink);
+        color: var(--color-black);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   NAVBAR — Mobile Hamburger Menu
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
     .navbar {
         padding: 14px 16px;
+        z-index: 1001;
     }
 
     .logo-truus {
         width: 100px;
+        height: auto;
     }
 
-    .logo-work-container {
-        width: 48px;
+    /* Hide desktop nav-right (work popout) on mobile */
+    .nav-right {
+        display: none;
+    }
+
+    /* Mobile hamburger button */
+    .navbar-hamburger {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 44px;
         height: 44px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 1002;
+        padding: 8px;
+        gap: 5px;
+        -webkit-tap-highlight-color: transparent;
     }
 
-    .logo-work-text {
-        font-size: 1.4rem;
-        margin-left: 52px;
+    .navbar-hamburger__line {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background-color: currentColor;
+        border-radius: 2px;
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
     }
 
-    .nav-bar__whatsapp-svg {
-        width: 26px;
+    /* Hamburger → Close morphing */
+    .navbar-hamburger.is-open .navbar-hamburger__line:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
     }
 
-    /* ── Header Hero ────────────────── */
-    .header-content {
-        height: 100svh;
-        padding: 0 24px;
+    .navbar-hamburger.is-open .navbar-hamburger__line:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+
+    .navbar-hamburger.is-open .navbar-hamburger__line:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Mobile fullscreen menu overlay */
+    .mobile-menu-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        pointer-events: none;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .mobile-menu-overlay.is-open {
+        pointer-events: auto;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-menu-overlay__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }
+
+    .mobile-menu-overlay__content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 100px 32px 60px;
+        background: rgba(240, 235, 230, 0.92);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
+    }
+
+    .mobile-menu-overlay__nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .mobile-menu-overlay__link {
+        font-family: 'Epilogue', sans-serif;
+        font-size: clamp(2rem, 7vw, 3rem);
+        font-weight: 800;
+        color: var(--color-dark);
+        text-decoration: none;
+        text-transform: lowercase;
+        letter-spacing: -1px;
+        padding: 12px 0;
         text-align: center;
+        width: 100%;
+        max-width: 300px;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.4s ease, transform 0.4s ease, color 0.2s ease;
+        -webkit-tap-highlight-color: transparent;
     }
 
-    .header-content h1 {
-        font-size: 2rem;
+    .mobile-menu-overlay.is-open .mobile-menu-overlay__link {
+        opacity: 1;
+        transform: translateY(0);
     }
 
-    /* ── Content / Hero Title ───────── */
-    .content-section {
-        padding: 80px 0 0;
+    /* Staggered animation delays */
+    .mobile-menu-overlay.is-open .mobile-menu-overlay__link:nth-child(1) { transition-delay: 0.1s; }
+    .mobile-menu-overlay.is-open .mobile-menu-overlay__link:nth-child(2) { transition-delay: 0.15s; }
+    .mobile-menu-overlay.is-open .mobile-menu-overlay__link:nth-child(3) { transition-delay: 0.2s; }
+    .mobile-menu-overlay.is-open .mobile-menu-overlay__link:nth-child(4) { transition-delay: 0.25s; }
+    .mobile-menu-overlay.is-open .mobile-menu-overlay__link:nth-child(5) { transition-delay: 0.3s; }
+    .mobile-menu-overlay.is-open .mobile-menu-overlay__link:nth-child(6) { transition-delay: 0.35s; }
+
+    .mobile-menu-overlay__link:active {
+        color: var(--color-orange);
+    }
+
+    .mobile-menu-overlay__cta {
+        margin-top: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-dark);
+        color: var(--color-white);
+        font-family: 'Epilogue', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        padding: 16px 40px;
+        border-radius: 50px;
+        text-decoration: none;
+        letter-spacing: -0.3px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.4s ease 0.4s, transform 0.4s ease 0.4s, background 0.2s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-menu-overlay.is-open .mobile-menu-overlay__cta {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .mobile-menu-overlay__cta:active {
+        background: var(--color-orange);
+    }
+
+    .mobile-menu-overlay__socials {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 20px;
+        opacity: 0;
+        transition: opacity 0.4s ease 0.5s;
+    }
+
+    .mobile-menu-overlay.is-open .mobile-menu-overlay__socials {
+        opacity: 1;
+    }
+
+    .mobile-menu-overlay__socials a {
+        color: var(--color-dark);
+        opacity: 0.6;
+        transition: opacity 0.2s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-menu-overlay__socials a:active {
+        opacity: 1;
+    }
+
+    .mobile-menu-overlay__socials svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* Prevent body scroll when menu is open */
+    body.menu-open {
+        overflow: hidden;
+    }
+}
+
+/* Desktop: hide hamburger */
+@media (min-width: 769px) {
+    .navbar-hamburger {
+        display: none;
+    }
+    .mobile-menu-overlay {
+        display: none;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   HERO SECTION — Mobile Redesign
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .vimeo-hero {
+        width: calc(100% - 16px);
+        height: calc(100svh - 16px);
+        margin: 8px auto;
+        border-radius: 16px;
+    }
+
+    .vimeo-hero__iframe {
+        width: 100vw;
+        height: 56.25vw;
+        min-height: 100svh;
+        min-width: 177.78svh;
+    }
+
+    /* Center title — larger and prominent */
+    .vimeo-hero__center-title {
+        font-size: clamp(2rem, 10vw, 4rem);
+        letter-spacing: -1px;
+        line-height: 1.05;
+        padding: 0 16px;
+    }
+
+    /* Bottom headline */
+    .home-header__title {
+        bottom: 80px;
+        padding: 0 20px;
+    }
+
+    .vimeo-hero__title {
+        font-size: clamp(1.1rem, 4.5vw, 1.8rem);
+        letter-spacing: -0.5px;
+        justify-content: center;
+        line-height: 1.15;
+    }
+
+    /* Smiley and star decorations */
+    .home-header__smiley {
+        width: 0.8em;
+        height: 0.8em;
+        top: -0.3em;
+        left: 0.3em;
+    }
+
+    .home-header__star {
+        width: 0.6em;
+        height: 0.6em;
+    }
+
+    .home-header__title-line-svg {
+        display: none;
+    }
+
+    /* Controls — bottom center, larger touch targets */
+    .vimeo-hero__controls {
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        gap: 10px;
+    }
+
+    .vimeo-hero__btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+    }
+
+    .vimeo-hero__btn svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 390px) {
+    .vimeo-hero__center-title {
+        font-size: clamp(1.8rem, 9vw, 3rem);
+    }
+
+    .vimeo-hero__title {
+        font-size: clamp(0.95rem, 4vw, 1.4rem);
+    }
+
+    .home-header__title {
+        bottom: 76px;
+        padding: 0 14px;
+    }
+
+    .vimeo-hero__controls {
+        bottom: 16px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   HORIZONTAL WORDS — Mobile: Skip pinned scroll, show static
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .horizontal-words-section {
+        height: auto;
+        min-height: auto;
+        padding: 60px 20px;
         overflow: visible;
     }
 
-    .main-title {
-        font-size: 3rem;
+    .horizontal-words__relative {
+        position: relative;
+        padding-left: 0;
+        padding-right: 0;
+        top: auto;
+        transform: none;
+        white-space: normal;
+        display: block;
+        text-align: center;
+    }
+
+    .horizontal-words__h2 {
+        font-size: clamp(2rem, 8vw, 3.5rem);
+        white-space: normal;
+        line-height: 1.1;
+        letter-spacing: -2px;
+        display: inline;
+    }
+
+    .horizontal-words__h2 .letter {
+        display: inline !important;
+        position: relative !important;
+    }
+
+    .horizontal-words__sticker-svg {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .horizontal-words__arrow-svg,
+    .horizontal-words__arrow-end-svg {
+        display: none;
+    }
+
+    .horizontal-words__sticker-watch,
+    .horizontal-words__sticker-cursor,
+    .horizontal-words__sticker-phone {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: clamp(50px, 15vw, 80px);
+    }
+
+    .horizontal-words__bottom-text {
+        position: relative;
+        left: auto;
+        top: auto;
+        transform: none;
+        width: 100%;
+        margin-top: 32px;
+    }
+
+    .horizontal-words__bottom-text-l {
+        font-size: clamp(1rem, 3.5vw, 1.3rem);
+        max-width: 100%;
+        line-height: 1.5;
+    }
+
+    .horizontal-words__placeholder-left-svg {
+        display: none;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   MOTION CARDS — Mobile Stack Layout
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .motion-card-section {
+        padding: 80px 20px 60px;
+    }
+
+    .motion-card__heading {
+        max-width: 100%;
+        margin-bottom: 40px;
+    }
+
+    .motion-card__title {
+        font-size: clamp(2.5rem, 10vw, 4rem);
+        letter-spacing: -3px;
+        line-height: 0.95;
+    }
+
+    .motion-card__subtitle {
+        font-size: clamp(2.5rem, 10vw, 4.5rem);
+        letter-spacing: -1.5px;
+        top: -15px;
+    }
+
+    .motion-card__sticker--top {
+        width: 80px;
+        height: 50px;
+        right: -10px;
+        top: -10px;
+    }
+
+    .motion-card__underline-svg {
+        max-width: 100%;
+        margin-top: -25px;
+    }
+
+    /* Cards area — vertical stack */
+    .motion-card__cards-area {
+        height: auto;
+        max-width: 100%;
+        margin: 20px auto 40px;
+    }
+
+    .motion-card__blob {
+        display: none;
+    }
+
+    .motion-card__cards {
+        flex-direction: column;
+        height: auto;
+        gap: 16px;
+        align-items: stretch;
+    }
+
+    .motion-card__card {
+        width: 100%;
+        height: auto;
+        min-height: 160px;
+        transform: none !important;
+        margin-right: 0 !important;
+        left: auto !important;
+        bottom: auto !important;
+        position: relative;
+    }
+
+    .motion-card__card-content {
+        padding: 24px 20px;
+        min-height: 160px;
+        justify-content: center;
+    }
+
+    .motion-card__step-num {
+        font-size: clamp(2rem, 6vw, 3rem);
+        margin-bottom: 8px;
+    }
+
+    .motion-card__step-title {
+        font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+        margin-bottom: 8px;
+    }
+
+    .motion-card__step-desc {
+        font-size: clamp(0.85rem, 2.5vw, 1rem);
+        line-height: 1.5;
+    }
+
+    .motion-card__footer-text {
+        max-width: 100%;
+        margin-top: 20px;
+    }
+
+    .motion-card__description {
+        font-size: clamp(0.95rem, 2.8vw, 1.15rem);
+        line-height: 1.6;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   SHOWREEL — Mobile
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .showreel-section {
+        min-height: 60svh;
+        padding: 60px 20px;
+    }
+
+    .showreel__title {
+        font-size: clamp(2rem, 8vw, 3.5rem);
         letter-spacing: -2px;
     }
 
-    .title-underline-svg {
-        width: 100px;
-        bottom: -10px;
+    .showreel__subtitle {
+        font-size: clamp(0.8rem, 2vw, 1rem);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   SERVICE CARDS — Mobile Improvements
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .content-section {
+        padding: 80px 16px 0;
+    }
+
+    .service-cards-wrapper .content-section {
+        padding: 60px 16px 0;
+    }
+
+    .main-title {
+        font-size: clamp(2rem, 7vw, 3rem);
+        letter-spacing: -2px;
     }
 
     .title-container {
-        margin-bottom: 50px;
+        margin-bottom: 40px;
     }
 
-    /* ── Cards (GSAP-controlled) ─────── */
+    .title-underline-svg {
+        width: 80px;
+        bottom: -8px;
+    }
+
     .cards-wrapper {
         position: relative !important;
         display: block !important;
         width: 100% !important;
-        margin: 0 auto !important;
+        margin: 40px auto !important;
         overflow: visible !important;
+        height: auto !important;
     }
 
     .card {
-        width: 82vw;
+        width: 85vw;
         max-width: 340px;
-        min-height: 420px;
+        min-height: 380px;
         height: auto;
+        position: absolute;
+        left: 50% !important;
+        top: 0 !important;
+        transform: translateX(-50%) !important;
     }
 
     .card-sticker {
         pointer-events: none;
     }
 
-    /* ── Double Marquee ─────────────── */
+    .card-title {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        margin-top: 20px;
+    }
+
+    .card-list li {
+        font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+        margin-bottom: 6px;
+    }
+
+    .card-image-wrapper {
+        width: 130px;
+        height: 95px;
+        top: -50px;
+        right: 10px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   DOUBLE MARQUEE — Mobile Grid
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
     .Double-marquee {
         flex-direction: column;
         align-items: flex-start;
-        padding: 60px 24px 0;
+        padding: 60px 16px 0;
         gap: 0;
-        min-height: unset;
+        min-height: auto;
     }
 
     .marquee-left {
@@ -133,7 +669,8 @@
         width: 100%;
         justify-content: flex-start;
         align-items: flex-start;
-        min-height: 340px;
+        min-height: 280px;
+        margin-bottom: 20px;
     }
 
     .marquee-text-container {
@@ -141,49 +678,50 @@
     }
 
     .marquee-left h2 {
-        font-size: 2.6rem;
+        font-size: clamp(2rem, 6vw, 2.6rem);
         letter-spacing: -1.5px;
-        margin-bottom: 0;
+        margin-bottom: 12px;
         margin-right: 0;
+        line-height: 1;
     }
 
     .marquee-blob-container {
-        width: 240px;
-        height: 280px;
+        width: 200px;
+        height: 240px;
         top: 45%;
         left: 20%;
     }
 
     .marquee-svg-item:nth-child(1) {
-        width: 60px;
+        width: 50px;
         bottom: 10%;
         left: 55%;
     }
 
     .marquee-svg-item:nth-child(2) {
-        width: 220px;
+        width: 180px;
         bottom: -5%;
         left: 55%;
     }
 
     .marquee-underline {
-        top: 5rem;
+        top: 4rem;
         right: auto;
-        left: 9.5rem;
-        width: 70px;
+        left: 8rem;
+        width: 60px;
     }
 
-    /* ── Logo columns → 2-row horizontal scroll grid ── */
+    /* Logo grid */
     .marquee-right {
         display: grid;
-        grid-template-rows: 130px 130px;
+        grid-template-rows: 110px 110px;
         grid-auto-flow: column;
-        grid-auto-columns: 130px;
-        gap: 8px;
+        grid-auto-columns: 110px;
+        gap: 6px;
         width: 100%;
         height: auto;
         margin-right: 0;
-        padding: 20px 24px 32px;
+        padding: 16px 16px 24px;
         overflow-x: auto;
         overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
@@ -210,104 +748,259 @@
     }
 
     .marquee-item {
-        width: 130px;
-        height: 130px;
+        width: 110px;
+        height: 110px;
+        border-radius: 8px;
         flex-shrink: 0;
     }
+}
 
-    /* ── Footer ─────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════════
+   TESTIMONIALS — Mobile Improvements
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .testimonials-section {
+        padding: 60px 0 40px;
+    }
+
+    .testimonials-header {
+        margin-bottom: 32px;
+        padding: 0 16px;
+    }
+
+    .testimonials-header h2 {
+        font-size: clamp(1.8rem, 6vw, 3rem);
+        line-height: 1.1;
+    }
+
+    .testimonials-header .text-highlight {
+        font-size: 1.3em;
+    }
+
+    .testimonials-underline {
+        width: 150px;
+        bottom: -10px;
+    }
+
+    .testimonials-marquee-container {
+        gap: 2rem;
+    }
+
+    .testimonial-card {
+        width: 280px;
+        min-width: 280px;
+        height: 200px;
+        padding: 20px;
+        border-radius: 1rem;
+    }
+
+    .testimonial-text {
+        font-size: 0.9rem;
+        line-height: 1.45;
+        -webkit-line-clamp: 5;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-author {
+        font-size: 1.2rem;
+    }
+
+    .marquee-content {
+        gap: 1rem;
+        padding-right: 1rem;
+    }
+
+    .ready-to-start {
+        margin-top: 60px;
+        padding: 0 16px 40px;
+    }
+
+    .ready-to-start h2 {
+        font-size: clamp(1.5rem, 5vw, 2.5rem);
+    }
+
+    .ready-to-start p {
+        font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   FOOTER — Mobile Layout
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+    .footer-top {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .footer-column h3,
+    .footer-column address,
+    .footer-email {
+        font-size: 1.5rem;
+    }
+
+    .footer-big-text {
+        font-size: 40vw;
+    }
+}
+
+@media (max-width: 768px) {
     .main-footer {
         padding: 6px;
     }
 
     .footer-inner {
-        padding: 50px 20px 30px;
+        padding: 40px 16px 24px;
         border-radius: 14px;
-        min-height: 100svh;
+        min-height: auto;
     }
 
     .footer-top {
         flex-direction: column;
-        gap: 36px;
+        gap: 32px;
+    }
+
+    .footer-column {
+        min-width: 0;
     }
 
     .footer-column h3 {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         letter-spacing: -0.5px;
     }
 
     .footer-column address {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
     }
 
     .footer-email {
-        font-size: 1.3rem;
+        font-size: clamp(1rem, 3vw, 1.3rem);
+        word-break: break-all;
     }
 
     .footer-whatsapp {
-        font-size: 1.1rem;
-        margin-top: -6px;
+        font-size: 1rem;
+        margin-top: -4px;
     }
 
     .footer-map-link {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
     }
 
-    /* ── Footer Stickers (mobile) ──── */
+    .footer-nav-links ul {
+        gap: 10px;
+    }
+
+    .footer-nav-links a {
+        font-size: 1rem;
+    }
+
+    .footer-profile {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px !important;
+    }
+
+    .footer-profile img {
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    .footer-profile h3 {
+        font-size: 1.2rem !important;
+        margin-bottom: 2px !important;
+    }
+
+    .footer-profile span {
+        font-size: 0.75rem !important;
+    }
+
+    .footer-column > p {
+        font-size: 0.9rem !important;
+        text-align: center;
+    }
+
+    .footer-socials {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .footer-socials a {
+        width: 42px;
+        height: 42px;
+    }
+
+    .footer-socials a svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Footer stickers — repositioned for mobile */
     .sticker-boom {
         left: 2%;
         bottom: 10%;
-        width: 90px;
+        width: 80px;
     }
 
     .sticker-smiley {
         left: 30%;
         bottom: 5%;
-        width: 90px;
+        width: 80px;
     }
 
     .sticker-heart {
         left: 50%;
         bottom: 18%;
-        width: 85px;
+        width: 75px;
     }
 
     .footer-sticker.sticker-hands {
         left: 60%;
         bottom: 2%;
-        width: 90px;
+        width: 80px;
     }
 
     .footer-sticker.sticker-100 {
         left: 72%;
         bottom: 20%;
-        width: 80px;
+        width: 70px;
     }
 
     .footer-sticker.sticker-camera {
         right: 2%;
         bottom: 8%;
-        width: 85px;
+        width: 75px;
     }
 
-    /* ── Footer wordmark ────────────── */
+    /* Footer bottom */
     .footer-bottom {
-        margin-top: 200px;
+        margin-top: 40px;
+    }
+
+    .footer-bottom-row {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
     }
 
     .footer-logo__svg {
-        width: 110%;
-        margin-left: -5%;
+        width: 100%;
+        margin-left: 0;
     }
 
-    /* ── Credits badge ──────────────── */
+    /* Credits badge */
     .footer-credits-wrapper {
-        margin-right: -15px;
-        margin-bottom: -15px;
+        margin-right: 0;
+        margin-bottom: 0;
+        align-self: center;
     }
 
     .footer-credits {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
     }
 
     .credits-box {
@@ -320,6 +1013,163 @@
     }
 
     .credits-name {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+    }
+
+    .credits-content {
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px;
+        white-space: normal;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   EXIT PAGE — Mobile
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .exit-close-btn {
+        top: 1rem;
+        right: 1rem;
+        font-size: 1rem;
+    }
+
+    .exit-page .footer-inner {
+        padding: 32px 16px 20px;
+        min-height: auto;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   TABLET (769px – 1200px) — Existing preserved
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .cards-wrapper {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+        padding-bottom: 50px;
+        gap: 30px;
+        overflow: visible;
+    }
+
+    .card {
+        position: relative;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        min-height: 400px;
+        margin-bottom: 20px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   LARGE DESKTOP (1281px+)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1281px) {
+    .navbar {
+        padding: 30px 100px;
+    }
+
+    .motion-card__cards-area {
+        max-width: 1200px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   EXTRA LARGE (1441px+)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1441px) {
+    .navbar {
+        padding: 30px 120px;
+    }
+
+    .cards-wrapper {
+        max-width: 1600px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   ULTRA WIDE (1921px+)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1921px) {
+    .navbar {
+        padding: 30px 160px;
+    }
+
+    .vimeo-hero__center-title {
+        font-size: 8rem;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   REDUCED MOTION — Respect user preference
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .marquee-track {
+        animation: none !important;
+    }
+
+    .testimonials-marquee-track {
+        animation: none !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   LANDSCAPE MOBILE — Special handling
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) and (orientation: landscape) {
+    .vimeo-hero {
+        height: 100svh;
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .vimeo-hero__center-title {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+    }
+
+    .home-header__title {
+        bottom: 60px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   SAFE AREA (Notched phones — iPhone X+)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@supports (padding-top: env(safe-area-inset-top)) {
+    @media (max-width: 768px) {
+        .navbar {
+            padding-top: calc(14px + env(safe-area-inset-top));
+            padding-left: calc(16px + env(safe-area-inset-left));
+            padding-right: calc(16px + env(safe-area-inset-right));
+        }
+
+        .vimeo-hero__controls {
+            bottom: calc(20px + env(safe-area-inset-bottom));
+        }
+
+        .footer-inner {
+            padding-bottom: calc(24px + env(safe-area-inset-bottom));
+        }
+
+        .mobile-menu-overlay__content {
+            padding-top: calc(100px + env(safe-area-inset-top));
+            padding-bottom: calc(60px + env(safe-area-inset-bottom));
+        }
     }
 }

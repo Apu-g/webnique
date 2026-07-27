@@ -9,11 +9,13 @@ export default function SmoothScroll() {
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
 
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
         const lenis = new Lenis({
-            duration: 1.2,
+            duration: isMobile ? 0.8 : 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             smoothWheel: true,
-            touchMultiplier: 1.5,
+            touchMultiplier: isMobile ? 1.0 : 1.5,
         });
 
         lenis.on('scroll', ScrollTrigger.update);
@@ -21,14 +23,12 @@ export default function SmoothScroll() {
         gsap.ticker.add(raf);
         gsap.ticker.lagSmoothing(0);
 
-        // Dynamic Tab Title Change
         const originalTitle = document.title;
         const handleVisibility = () => {
-            document.title = document.hidden ? "Hey, over here!👋 - Truus" : originalTitle;
+            document.title = document.hidden ? "Hey, over here! - Webnique" : originalTitle;
         };
         document.addEventListener('visibilitychange', handleVisibility);
 
-        // Store lenis on window so other components can access it
         window.__lenis = lenis;
 
         return () => {

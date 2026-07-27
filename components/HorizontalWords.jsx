@@ -28,6 +28,9 @@ const HorizontalWords = () => {
             // that the querySelectorAll will find nothing and the animation will gracefully skip.
             const arrows = container.querySelectorAll('.horizontal-words__arrow-svg path, .horizontal-words__arrow-end-svg path');
 
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            if (isMobile) return; // Skip heavy pinned scroll on mobile
+
             // ScrollTween for horizontal movement of the text block
             const scrollTween = gsap.fromTo(textRef, {
                 xPercent: 50 // Start far right so it slides in naturally

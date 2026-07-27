@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { WIGGLE_CONFIG } from '@/lib/data';
-import MenuOverlay from './MenuOverlay';
+import { WIGGLE_CONFIG, SOCIAL_ICONS } from '@/lib/data';
 import TransitionLink from './TransitionLink';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -28,12 +27,31 @@ function initWiggle(element, intensity) {
 }
 
 export default function Navbar() {
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const toggleMenu = useCallback(() => {
+        setMenuOpen(prev => !prev);
+    }, []);
+
+    const closeMenu = useCallback(() => {
+        setMenuOpen(false);
+    }, []);
+
+    // Lock body scroll when menu is open
+    useEffect(() => {
+        if (menuOpen) {
+            document.body.classList.add('menu-open');
+        } else {
+            document.body.classList.remove('menu-open');
+        }
+        return () => document.body.classList.remove('menu-open');
+    }, [menuOpen]);
+
     useEffect(() => {
         const navbar = document.querySelector('.navbar');
         const contentSection = document.querySelector('.content-section');
         const footerEl = document.querySelector('.main-footer');
 
-        // ② Start white (on-dark) — video is dark background
         if (navbar) { navbar.classList.add('on-dark'); navbar.classList.remove('on-light'); }
 
         const updateNavbarColor = () => {
@@ -41,7 +59,6 @@ export default function Navbar() {
             const scrollPos = window.scrollY + navbar.offsetHeight / 2;
             const contentTop = contentSection.getBoundingClientRect().top + window.scrollY;
 
-            // Toggle is-scrolled class
             if (window.scrollY > 50) {
                 navbar.classList.add('is-scrolled');
             } else {
@@ -76,12 +93,8 @@ export default function Navbar() {
         window.addEventListener('scroll', updateNavbarColor);
         updateNavbarColor();
 
-        // ─── Logo Scroll Shrink Animation ───
-        // Removed: Logo is now static in the navbar.
         const logoTruus = document.querySelector('.logo-truus');
 
-
-        // Wiggle on logo and work button
         const cleanups = [];
         if (logoTruus) cleanups.push(initWiggle(logoTruus, WIGGLE_CONFIG.logoTruus));
         
@@ -104,7 +117,6 @@ export default function Navbar() {
             }
         };
 
-        // ─── Navbar Right (Work) Hover ───
         const navRight = document.querySelector('.nav-right');
         const workBox = document.querySelector('.nav-right .nav-popout');
         const workBlob = document.querySelector('.nav-bar__work-blob-svg');
@@ -113,16 +125,13 @@ export default function Navbar() {
             const workInner = workBox.querySelector('.nav-popout-inner');
             const workItems = workInner ? Array.from(workInner.children) : [];
 
-            // Temporarily show to measure both the box AND the blob icon center
             gsap.set(workBox, { visibility: 'visible', scale: 1, opacity: 1 });
             const boxRect = workBox.getBoundingClientRect();
             const blobRect = workBlob.getBoundingClientRect();
-            // Icon center relative to the box's own top-left
             const originX = (blobRect.left + blobRect.width / 2) - boxRect.left;
             const originY = (blobRect.top + blobRect.height / 2) - boxRect.top;
             const workOrigin = `${originX}px ${originY}px`;
 
-            // Start collapsed, scaling FROM the icon center
             gsap.set(workBox, {
                 visibility: 'hidden',
                 scale: 0,
@@ -138,16 +147,13 @@ export default function Navbar() {
                 gsap.killTweensOf(workBlob);
                 showOverlay();
 
-                // Fast 360 blob spin — like it's spinning then releasing the box
                 gsap.to(workBlob, { rotation: '+=360', duration: 0.7, ease: 'power3.inOut' });
 
                 gsap.set(workBox, { visibility: 'visible' });
-                // Box grows out smoothly from the icon center
                 gsap.fromTo(workBox,
                     { scale: 0, opacity: 0 },
                     { scale: 1, opacity: 1, duration: 0.8, ease: 'expo.out' }
                 );
-                // Items emerge while box is growing
                 gsap.to(workItems, { y: 0, opacity: 1, duration: 0.45, stagger: 0.06, ease: 'power3.out', delay: 0.18 });
             };
 
@@ -157,9 +163,7 @@ export default function Navbar() {
                 gsap.killTweensOf(workBlob);
                 hideOverlay();
 
-                // Items fade quickly
                 gsap.to(workItems, { y: 10, opacity: 0, duration: 0.15, ease: 'power2.in' });
-                // Box shrinks back into icon smoothly
                 gsap.to(workBox, {
                     scale: 0,
                     opacity: 0,
@@ -178,7 +182,6 @@ export default function Navbar() {
             });
         }
 
-        // ─── Work Item: badge wiggle + image tilt on hover ───
         const workItems = document.querySelectorAll('.nav-work-item');
         workItems.forEach(item => {
             const badge = item.querySelector('.nav-work-badge');
@@ -186,12 +189,10 @@ export default function Navbar() {
             let wiggleTween;
 
             const onItemEnter = () => {
-                // Wiggle badge intensity 2
                 if (badge) {
                     gsap.set(badge, { transformOrigin: 'center center' });
                     wiggleTween = gsap.to(badge, { rotation: 5, duration: 0.15, repeat: -1, yoyo: true, ease: 'steps(1)' });
                 }
-                // Tilt image slightly right
                 if (img) gsap.to(img, { rotation: 16, scale: 1.15, duration: 0.25, ease: 'power2.out' });
             };
             const onItemLeave = () => {
@@ -207,7 +208,6 @@ export default function Navbar() {
             });
         });
 
-        // ─── All Our Work btn: wiggle intensity 4 (bubble handled by CursorBubble) ───
         const workBtn = document.querySelector('.nav-work-btn');
         if (workBtn) {
             let btnWiggle;
@@ -241,19 +241,20 @@ export default function Navbar() {
         <>
             <div className="nav-overlay"></div>
             <nav className="navbar">
-                <div className="nav-left" style={{ cursor: "url('/assets/Cursor SVG/cursor-pointer.svg') 12 12, pointer" }}>
+                <div className="nav-left">
                     <TransitionLink href="/" style={{ display: 'flex' }}>
                         <img className="logo-truus" src="/images/logo/logo-transparent.png" alt="Webnique" />
                     </TransitionLink>
                 </div>
-                <div className="nav-right" style={{ cursor: "url('/assets/Cursor SVG/cursor-pointer.svg') 12 12, pointer" }}>
+
+                {/* Desktop: Work popout */}
+                <div className="nav-right">
                     <div className="nav-hover-trigger">
                         <TransitionLink href="/our-works" className="logo-work-container" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
                             <img src="/assets/Navbar SVG/nav-work-blob.svg" width="60" height="55" className="nav-bar__work-blob-svg" alt="" aria-hidden="true" />
                             <span className="logo-work-text">work</span>
                         </TransitionLink>
 
-                        {/* Pop-out Box for Right Side */}
                         <div className="nav-popout nav-work-box">
                             <div className="nav-popout-inner">
                                 <div className="nav-companies-wrapper">
@@ -270,7 +271,50 @@ export default function Navbar() {
                         </div>
                     </div>
                 </div>
+
+                {/* Mobile: Hamburger button */}
+                <button
+                    className={`navbar-hamburger ${menuOpen ? 'is-open' : ''}`}
+                    onClick={toggleMenu}
+                    aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                    aria-expanded={menuOpen}
+                >
+                    <span className="navbar-hamburger__line"></span>
+                    <span className="navbar-hamburger__line"></span>
+                    <span className="navbar-hamburger__line"></span>
+                </button>
             </nav>
+
+            {/* Mobile fullscreen menu overlay */}
+            <div className={`mobile-menu-overlay ${menuOpen ? 'is-open' : ''}`}>
+                <div className="mobile-menu-overlay__backdrop" onClick={closeMenu}></div>
+                <div className="mobile-menu-overlay__content">
+                    <nav className="mobile-menu-overlay__nav">
+                        <TransitionLink href="/" className="mobile-menu-overlay__link" onClick={closeMenu}>home</TransitionLink>
+                        <TransitionLink href="/#about" className="mobile-menu-overlay__link" onClick={closeMenu}>about</TransitionLink>
+                        <TransitionLink href="/#services" className="mobile-menu-overlay__link" onClick={closeMenu}>services</TransitionLink>
+                        <TransitionLink href="/our-works" className="mobile-menu-overlay__link" onClick={closeMenu}>our works</TransitionLink>
+                        <TransitionLink href="/contact" className="mobile-menu-overlay__link" onClick={closeMenu}>contact</TransitionLink>
+                    </nav>
+
+                    <TransitionLink href="/our-works" className="mobile-menu-overlay__cta" onClick={closeMenu}>
+                        View Our Work
+                    </TransitionLink>
+
+                    <div className="mobile-menu-overlay__socials">
+                        {SOCIAL_ICONS.map(({ href, label, svg }) => (
+                            <a
+                                key={label}
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={label}
+                                dangerouslySetInnerHTML={{ __html: svg }}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
         </>
     );
 }

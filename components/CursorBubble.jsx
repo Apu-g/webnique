@@ -5,6 +5,10 @@ import { gsap } from 'gsap';
 
 export default function CursorBubble() {
     useEffect(() => {
+        // Skip on mobile/touch devices
+        const isMobile = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
+        if (isMobile) return;
+
         const cursorBubble = document.querySelector('.cursor-bubble');
         if (!cursorBubble) return;
 

@@ -56,6 +56,25 @@ export default function MotionCards() {
                     card.addEventListener("mouseenter", onEnter);
                     card.addEventListener("mouseleave", onLeave);
                 });
+            } else {
+                const cards = document.querySelectorAll(".motion-card__card");
+                gsap.set(cards, { clearProps: "all" });
+                cards.forEach((card) => {
+                    gsap.fromTo(card,
+                        { y: 80, opacity: 0 },
+                        {
+                            y: 0,
+                            opacity: 1,
+                            duration: 0.8,
+                            ease: 'power3.out',
+                            scrollTrigger: {
+                                trigger: card,
+                                start: 'top 85%',
+                                toggleActions: 'play reverse play reverse'
+                            }
+                        }
+                    );
+                });
             }
 
             // Entry Animations: Sticker Pop & Underline Draw

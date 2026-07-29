@@ -29,7 +29,7 @@ const HorizontalWords = () => {
             const arrows = container.querySelectorAll('.horizontal-words__arrow-svg path, .horizontal-words__arrow-end-svg path');
 
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
-            if (isMobile) return; // Skip heavy pinned scroll on mobile
+            // Removed: if (isMobile) return; so we get the wiggly animation on phone
 
             // ScrollTween for horizontal movement of the text block
             const scrollTween = gsap.fromTo(textRef, {

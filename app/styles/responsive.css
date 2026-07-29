@@ -358,7 +358,10 @@
     }
 
     .home-header__title-line-svg {
-        display: none;
+        display: block;
+        width: 130%;
+        height: 120%;
+        transform: translate(-50%, -50%);
     }
 
     /* Controls — bottom center, larger touch targets */
@@ -402,81 +405,21 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   HORIZONTAL WORDS — Mobile: Skip pinned scroll, show static
+   HORIZONTAL WORDS — Mobile: Keep marquee, increase size
    ═══════════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-    .horizontal-words-section {
-        height: auto;
-        min-height: auto;
-        padding: 60px 20px;
-        overflow: visible;
-    }
-
-    .horizontal-words__relative {
-        position: relative;
-        padding-left: 0;
-        padding-right: 0;
-        top: auto;
-        transform: none;
-        white-space: normal;
-        display: block;
-        text-align: center;
-    }
-
     .horizontal-words__h2 {
-        font-size: clamp(2rem, 8vw, 3.5rem);
-        white-space: normal;
-        line-height: 1.1;
-        letter-spacing: -2px;
-        display: inline;
+        font-size: clamp(3rem, 15vw, 6rem);
     }
-
-    .horizontal-words__h2 .letter {
-        display: inline !important;
-        position: relative !important;
-    }
-
-    .horizontal-words__sticker-svg {
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px;
-        margin-bottom: 24px;
-    }
-
-    .horizontal-words__arrow-svg,
-    .horizontal-words__arrow-end-svg {
-        display: none;
-    }
-
-    .horizontal-words__sticker-watch,
-    .horizontal-words__sticker-cursor,
-    .horizontal-words__sticker-phone {
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        width: clamp(50px, 15vw, 80px);
-    }
-
-    .horizontal-words__bottom-text {
-        position: relative;
-        left: auto;
-        top: auto;
-        transform: none;
-        width: 100%;
-        margin-top: 32px;
+    
+    .horizontal-words__relative {
+        padding-left: 15vw;
+        padding-right: 15vw;
     }
 
     .horizontal-words__bottom-text-l {
-        font-size: clamp(1rem, 3.5vw, 1.3rem);
+        font-size: clamp(1rem, 4vw, 1.3rem);
         max-width: 100%;
-        line-height: 1.5;
-    }
-
-    .horizontal-words__placeholder-left-svg {
-        display: none;
     }
 }
 
@@ -525,7 +468,11 @@
     }
 
     .motion-card__blob {
-        display: none;
+        display: block;
+        transform: translate(-50%, -50%) scale(0.6);
+        top: 50%;
+        left: 50%;
+        opacity: 0.7;
     }
 
     .motion-card__cards {
@@ -625,7 +572,10 @@
 
     .cards-wrapper {
         position: relative !important;
-        display: block !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 60px !important;
         width: 100% !important;
         margin: 40px auto !important;
         overflow: visible !important;
@@ -637,10 +587,10 @@
         max-width: 340px;
         min-height: 380px;
         height: auto;
-        position: absolute;
-        left: 50% !important;
-        top: 0 !important;
-        transform: translateX(-50%) !important;
+        position: relative;
+        left: auto;
+        top: auto;
+        margin: 0 auto;
     }
 
     .card-sticker {
@@ -713,8 +663,9 @@
 
     .marquee-svg-item:nth-child(2) {
         width: 180px;
-        bottom: -5%;
-        left: 55%;
+        bottom: -15%;
+        left: 45%;
+        transform: rotate(80deg);
     }
 
     .marquee-underline {
@@ -724,45 +675,74 @@
         width: 60px;
     }
 
-    /* Logo grid */
+    /* Horizontal Marquee tracks */
     .marquee-right {
-        display: grid;
-        grid-template-rows: 110px 110px;
-        grid-auto-flow: column;
-        grid-auto-columns: 110px;
-        gap: 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
         width: 100%;
         height: auto;
         margin-right: 0;
-        padding: 16px 16px 24px;
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-
-    .marquee-right::-webkit-scrollbar {
-        display: none;
+        padding: 40px 0 24px;
+        overflow: hidden;
     }
 
     .marquee-column {
-        display: contents;
+        display: flex;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
     }
 
     .marquee-column::before,
     .marquee-column::after {
-        display: none;
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 40px;
+        height: auto;
+        z-index: 2;
+        pointer-events: none;
+        display: block;
     }
 
-    .marquee-column:nth-child(1) .marquee-track,
+    .marquee-column::before {
+        left: 0;
+        background: linear-gradient(to right, var(--bg-color) 0%, transparent 100%);
+    }
+
+    .marquee-column::after {
+        right: 0;
+        background: linear-gradient(to left, var(--bg-color) 0%, transparent 100%);
+    }
+
+    .marquee-track {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .marquee-column:nth-child(1) .marquee-track {
+        animation: marqueeLeftMobile 20s linear infinite;
+    }
     .marquee-column:nth-child(2) .marquee-track {
-        display: contents;
-        animation: none;
+        animation: marqueeRightMobile 20s linear infinite;
+    }
+
+    @keyframes marqueeLeftMobile {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    @keyframes marqueeRightMobile {
+        0% { transform: translateX(-50%); }
+        100% { transform: translateX(0); }
     }
 
     .marquee-item {
-        width: 110px;
-        height: 110px;
+        width: 130px;
+        height: 130px;
         border-radius: 8px;
         flex-shrink: 0;
     }

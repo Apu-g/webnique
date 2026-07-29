@@ -77,11 +77,7 @@ export default function TestimonialsSection() {
                 </div>
             </div>
             
-            <div className="ready-to-start">
-                <h2>Ready to Start?</h2>
-                <p>Scroll down to talk with us</p>
-                <div className="scroll-arrow">↓</div>
-            </div>
+            
         </section>
     );
 }

@@ -15,6 +15,7 @@ import SmoothScroll from '@/components/SmoothScroll';
 
 import HorizontalWords from '@/components/HorizontalWords';
 import ProductsSection from '@/components/ProductsSection';
+import OurWorksSection from '@/components/OurWorksSection';
 
 export default function Home() {
     return (
@@ -42,6 +43,7 @@ export default function Home() {
             </section>
             
             <TestimonialsSection />
+            <OurWorksSection />
             <ExitPage />
             
             <TransitionScribble />

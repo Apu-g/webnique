@@ -29,8 +29,7 @@
     .footer-nav-links a,
     .footer-socials a,
     .footer-credits,
-    .nav-company-pill,
-    .nav-work-btn,
+    .nav-menu-item,
     .logo-work-container,
     .nav-right,
     .vimeo-hero,
@@ -206,6 +205,11 @@
         transform: translateY(30px);
         transition: opacity 0.4s ease, transform 0.4s ease, color 0.2s ease;
         -webkit-tap-highlight-color: transparent;
+    }
+
+    button.mobile-menu-overlay__link {
+        background: none;
+        border: none;
     }
 
     .mobile-menu-overlay.is-open .mobile-menu-overlay__link {

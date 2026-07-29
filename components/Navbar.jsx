@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { WIGGLE_CONFIG, SOCIAL_ICONS } from '@/lib/data';
@@ -26,8 +26,23 @@ function initWiggle(element, intensity) {
     };
 }
 
+function scrollToSection(selector) {
+    if (!selector) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+    }
+    if (selector === 'bottom') {
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+        return;
+    }
+    const el = document.querySelector(selector);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [popoutOpen, setPopoutOpen] = useState(false);
+    const popoutRef = useRef(null);
 
     const toggleMenu = useCallback(() => {
         setMenuOpen(prev => !prev);
@@ -37,7 +52,20 @@ export default function Navbar() {
         setMenuOpen(false);
     }, []);
 
-    // Lock body scroll when menu is open
+    const togglePopout = useCallback(() => {
+        setPopoutOpen(prev => !prev);
+    }, []);
+
+    const closePopout = useCallback(() => {
+        setPopoutOpen(false);
+    }, []);
+
+    const handleNavClick = useCallback((selector) => {
+        scrollToSection(selector);
+        closePopout();
+    }, []);
+
+    // Lock body scroll when mobile menu is open
     useEffect(() => {
         if (menuOpen) {
             document.body.classList.add('menu-open');
@@ -141,7 +169,7 @@ export default function Navbar() {
             gsap.set(workItems, { y: 10, opacity: 0 });
             gsap.set(workBlob, { transformOrigin: 'center center' });
 
-            const onEnterRight = () => {
+            const openPopout = () => {
                 gsap.killTweensOf(workBox);
                 gsap.killTweensOf(workItems);
                 gsap.killTweensOf(workBlob);
@@ -157,7 +185,7 @@ export default function Navbar() {
                 gsap.to(workItems, { y: 0, opacity: 1, duration: 0.45, stagger: 0.06, ease: 'power3.out', delay: 0.18 });
             };
 
-            const onLeaveRight = () => {
+            const closePopoutAnim = () => {
                 gsap.killTweensOf(workBox);
                 gsap.killTweensOf(workItems);
                 gsap.killTweensOf(workBlob);
@@ -174,10 +202,18 @@ export default function Navbar() {
                 });
             };
 
-            navRight.addEventListener('mouseenter', onEnterRight);
+            // Expose for React click handler
+            window.__navOpenPopout = openPopout;
+            window.__navClosePopout = closePopoutAnim;
+
+            const onLeaveRight = () => {
+                if (!window.__navPopoutKeepOpen) {
+                    closePopoutAnim();
+                }
+            };
+
             navRight.addEventListener('mouseleave', onLeaveRight);
             cleanups.push(() => {
-                navRight.removeEventListener('mouseenter', onEnterRight);
                 navRight.removeEventListener('mouseleave', onLeaveRight);
             });
         }
@@ -237,6 +273,38 @@ export default function Navbar() {
         };
     }, []);
 
+    // React to popoutOpen state
+    useEffect(() => {
+        if (popoutOpen) {
+            window.__navPopoutKeepOpen = true;
+            if (window.__navOpenPopout) window.__navOpenPopout();
+        } else {
+            window.__navPopoutKeepOpen = false;
+            if (window.__navClosePopout) window.__navClosePopout();
+        }
+    }, [popoutOpen]);
+
+    // Click outside to close
+    useEffect(() => {
+        if (!popoutOpen) return;
+        const handleClick = (e) => {
+            if (popoutRef.current && !popoutRef.current.contains(e.target) &&
+                !e.target.closest('.logo-work-container')) {
+                setPopoutOpen(false);
+            }
+        };
+        document.addEventListener('click', handleClick);
+        return () => document.removeEventListener('click', handleClick);
+    }, [popoutOpen]);
+
+    const menuItems = [
+        { label: 'Home', target: null },
+        { label: 'Works', target: '.ow-main' },
+        { label: 'Services', target: '.service-cards-wrapper' },
+        { label: 'Review', target: '.testimonials-section' },
+        { label: 'Contact', target: 'bottom' },
+    ];
+
     return (
         <>
             <div className="nav-overlay"></div>
@@ -244,26 +312,29 @@ export default function Navbar() {
                 <div className="nav-left">
                 </div>
 
-                {/* Desktop: Work popout */}
-                <div className="nav-right">
+                {/* Desktop: Menu popout */}
+                <div className="nav-right" ref={popoutRef}>
                     <div className="nav-hover-trigger">
-                        <TransitionLink href="/our-works" className="logo-work-container" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+                        <button
+                            className="logo-work-container"
+                            onClick={togglePopout}
+                            style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', background: 'none', border: 'none', cursor: 'pointer' }}
+                        >
                             <img src="/assets/Navbar SVG/nav-work-blob.svg" width="60" height="55" className="nav-bar__work-blob-svg" alt="" aria-hidden="true" />
-                            <span className="logo-work-text">work</span>
-                        </TransitionLink>
+                            <span className="logo-work-text">menu</span>
+                        </button>
 
                         <div className="nav-popout nav-work-box">
                             <div className="nav-popout-inner">
-                                <div className="nav-companies-wrapper">
-                                    <span className="nav-company-pill badge-maroon">Camera Service Centre</span>
-                                    <span className="nav-company-pill badge-pink">Car Fit</span>
-                                    <span className="nav-company-pill badge-green">My Roti Bowl</span>
-                                    <span className="nav-company-pill badge-orange">The Sustainability Studio</span>
-                                    <span className="nav-company-pill badge-blue">Voguish Vibe</span>
-                                </div>
-                                <TransitionLink href="/our-works" className="nav-work-btn" data-wiggle-target>
-                                    View all projects
-                                </TransitionLink>
+                                {menuItems.map((item) => (
+                                    <button
+                                        key={item.label}
+                                        className="nav-menu-item"
+                                        onClick={() => handleNavClick(item.target)}
+                                    >
+                                        {item.label}
+                                    </button>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -287,16 +358,12 @@ export default function Navbar() {
                 <div className="mobile-menu-overlay__backdrop" onClick={closeMenu}></div>
                 <div className="mobile-menu-overlay__content">
                     <nav className="mobile-menu-overlay__nav">
-                        <TransitionLink href="/" className="mobile-menu-overlay__link" onClick={closeMenu}>home</TransitionLink>
-                        <TransitionLink href="/#about" className="mobile-menu-overlay__link" onClick={closeMenu}>about</TransitionLink>
-                        <TransitionLink href="/#services" className="mobile-menu-overlay__link" onClick={closeMenu}>services</TransitionLink>
-                        <TransitionLink href="/our-works" className="mobile-menu-overlay__link" onClick={closeMenu}>our works</TransitionLink>
-                        <TransitionLink href="/contact" className="mobile-menu-overlay__link" onClick={closeMenu}>contact</TransitionLink>
+                        <button className="mobile-menu-overlay__link" onClick={() => { scrollToSection(null); closeMenu(); }}>home</button>
+                        <button className="mobile-menu-overlay__link" onClick={() => { scrollToSection('.ow-main'); closeMenu(); }}>works</button>
+                        <button className="mobile-menu-overlay__link" onClick={() => { scrollToSection('.service-cards-wrapper'); closeMenu(); }}>services</button>
+                        <button className="mobile-menu-overlay__link" onClick={() => { scrollToSection('.testimonials-section'); closeMenu(); }}>review</button>
+                        <button className="mobile-menu-overlay__link" onClick={() => { scrollToSection('bottom'); closeMenu(); }}>contact</button>
                     </nav>
-
-                    <TransitionLink href="/our-works" className="mobile-menu-overlay__cta" onClick={closeMenu}>
-                        View Our Work
-                    </TransitionLink>
 
                     <div className="mobile-menu-overlay__socials">
                         {SOCIAL_ICONS.map(({ href, label, svg }) => (

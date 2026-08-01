@@ -51,7 +51,7 @@
     line-height: 1.4;
     font-weight: 400;
     margin: 0;
-    /* Removed the hacky centered margin */
+    color: var(--color-text-primary);
 }
 
 .horizontal-words__sticker-svg {

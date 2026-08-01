@@ -39,7 +39,7 @@
     right: 3rem;
     background: none;
     border: none;
-    color: var(--color-dark);
+    color: var(--color-text-primary);
     font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
@@ -55,3 +55,5 @@
 .exit-page .footer-inner {
     margin-top: auto;
 }
+
+

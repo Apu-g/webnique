@@ -6,8 +6,9 @@ import VimeoHero from '@/components/VimeoHero';
 import ServiceCards from '@/components/ServiceCards';
 import MotionCards from '@/components/MotionCards';
 import Showreel from '@/components/Showreel';
-import DoubleMarquee from '@/components/DoubleMarquee';
+import OurWorksSection from '@/components/OurWorksSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
+import ReadyToStartSection from '@/components/ReadyToStartSection';
 import ExitPage from '@/components/ExitPage';
 import TransitionScribble from '@/components/TransitionScribble';
 import CursorBubble from '@/components/CursorBubble';
@@ -15,7 +16,6 @@ import SmoothScroll from '@/components/SmoothScroll';
 
 import HorizontalWords from '@/components/HorizontalWords';
 import ProductsSection from '@/components/ProductsSection';
-import OurWorksSection from '@/components/OurWorksSection';
 
 export default function Home() {
     return (
@@ -38,12 +38,9 @@ export default function Home() {
                 </div>
                 <ProductsSection />
             </main>
-            <section className="Double-marquee">
-                <DoubleMarquee />
-            </section>
-            
-            <TestimonialsSection />
             <OurWorksSection />
+            <TestimonialsSection />
+            <ReadyToStartSection />
             <ExitPage />
             
             <TransitionScribble />

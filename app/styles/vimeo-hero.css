@@ -420,7 +420,7 @@
     z-index: 1;
     width: 56px;
     height: 56px;
-    color: var(--color-dark);
+    color: var(--color-text-primary);
     display: flex;
     align-items: center;
     justify-content: center;

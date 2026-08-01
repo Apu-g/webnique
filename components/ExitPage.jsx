@@ -35,6 +35,7 @@ export default function ExitPage() {
                 isAnimating = true;
                 localIsOpen = true;
                 exitPageRef.current.classList.add('is-open');
+                if (window.__lenis) window.__lenis.stop();
 
                 const tl = gsap.timeline({
                     onComplete: () => {
@@ -72,6 +73,7 @@ export default function ExitPage() {
                         gsap.set(menuBgRef.current, { attr: { d: OPEN_HIDDEN } });
                         gsap.set('.exit-page-content', { opacity: 0, y: 100 });
                         localIsOpen = false;
+                        if (window.__lenis) window.__lenis.start();
                         isAnimating = false;
                         
                         const testimonials = document.querySelector('.testimonials-section');
@@ -100,7 +102,7 @@ export default function ExitPage() {
 
             ScrollTrigger.create({
                 trigger: '.ready-to-start',
-                start: 'top 80%',
+                start: 'bottom bottom',
                 onEnter: () => {
                     if (!localIsOpen) {
                         openExitPage();

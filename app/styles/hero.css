@@ -15,8 +15,16 @@
     font-family: 'Epilogue', sans-serif;
     font-weight: 800;
     letter-spacing: -4px;
-    color: var(--color-black);
+    color: var(--color-text-primary);
     cursor: url("/assets/Cursor SVG/cursor-text.svg") 12 12, auto;
+}
+
+.service-cards-wrapper .main-title {
+    color: var(--color-gold);
+}
+
+.service-cards-wrapper .italic-text {
+    color: var(--color-text-primary);
 }
 
 .italic-text {
@@ -32,7 +40,7 @@
     right: 0;
     width: 160px;
     height: auto;
-    color: var(--color-black);
+    color: var(--color-gold);
 }
 
 .title-underline-svg path {

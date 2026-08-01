@@ -13,22 +13,26 @@
 
 /* ─── Design Tokens ─────────────────────────────────────────────────────────── */
 :root {
-    --color-gold: #c9a96e;
-    --color-gold-light: #dfc99a;
-    --color-gold-dark: #a68642;
+    --color-gold: #c9f31d;
+    --color-gold-light: #ddf55a;
+    --color-gold-dark: #a3c418;
     --color-green: #7a9e7e;
     --color-lightblue: #a8b8cc;
-    --color-darkblue: #5c6b7a;
+    --color-darkblue: #000D27;
     --color-lightgreen: #d8dcc8;
     --color-orange: #c9a96e;
     --color-maroon: #9e7a7a;
     --color-pink: #dcc8c8;
-    --bg-color: #f5f1eb;
+    --bg-color: #141410;
     --color-white: #ffffff;
     --color-black: #000000;
     --color-dark: #2c2a26;
+    --color-light: #f0ede8;
     --color-black-soft: #1a1815;
     --color-black-deep: #121010;
+    --color-text-primary: #e8e8e3;
+    --color-text-secondary: #999999;
+    --color-border: #333333;
 }
 
 /* ─── Reset ─────────────────────────────────────────────────────────────────── */
@@ -39,8 +43,8 @@
 }
 
 ::selection {
-    background-color: var(--color-gold-light);
-    color: var(--color-dark);
+    background-color: var(--color-gold);
+    color: var(--color-black-deep);
 }
 
 a,
@@ -67,7 +71,7 @@ object {
 body {
     background-color: var(--bg-color);
     font-family: 'Epilogue', sans-serif;
-    color: var(--color-dark);
+    color: var(--color-text-primary);
     overflow-x: hidden;
     scrollbar-width: none;
     -ms-overflow-style: none;

@@ -33,5 +33,7 @@
 /* Our Works page                           */
 @import './styles/products-section.css';
 /* Products section (Quip + WBFlow)         */
+@import './styles/contact.css';
+/* Contact page                             */
 @import './styles/responsive.css';
 /* All media queries (tablet + mobile)      */

@@ -2,7 +2,7 @@
 
 .our-works-container {
     background-color: var(--bg-color);
-    color: var(--color-dark);
+    color: var(--color-text-primary);
     min-height: 100vh;
     overflow-x: hidden;
 }
@@ -119,7 +119,7 @@
     text-transform: uppercase;
     font-weight: 800;
     font-family: 'Epilogue', sans-serif;
-    color: var(--color-dark);
+    color: var(--color-text-primary);
 }
 
 .ow-divider {
@@ -484,7 +484,7 @@
   font-size: clamp(1.5rem, 4vw, 4rem);
   text-transform: uppercase;
   font-weight: 700;
-  color: var(--color-dark);
+  color: var(--color-text-primary);
 }
 .ow-cta-section .ow-ready-cta p {
   font-size: clamp(1rem, 1.5vw, 1.5rem);
@@ -503,8 +503,174 @@
   60% { transform: translateY(-10px); }
 }
 
-/* ─── Responsive ─── */
+/* ═══════════════════════════════════════════════════════════════════════
+   Our Works Marquee Section (home page)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.our-works-marquee-section {
+  width: 100%;
+  padding: 8rem 0;
+  overflow: hidden;
+  background: var(--bg-color);
+}
+
+.ow-marquee-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 4rem 3rem;
+}
+
+.ow-marquee-header h2 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: var(--color-text-primary);
+}
+
+.ow-marquee-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-gold);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.25rem;
+  transition: gap 0.3s ease;
+}
+
+.ow-marquee-cta-link:hover {
+  gap: 0.75rem;
+}
+
+.ow-marquee-row {
+  width: 100vw;
+  overflow: hidden;
+}
+
+.ow-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: ow-scroll-marquee 50s linear infinite;
+}
+
+.ow-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.ow-marquee-content {
+  display: flex;
+  gap: 3rem;
+  padding-right: 3rem;
+  align-items: center;
+}
+
+.ow-marquee-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+  width: 180px;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: var(--color-black-soft);
+  transition: background 0.3s ease;
+}
+
+.ow-marquee-logo:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.ow-marquee-logo img {
+  width: 100%;
+  height: 100px;
+  object-fit: contain;
+}
+
+.ow-marquee-brand {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  text-align: center;
+}
+
+.ow-marquee-footer {
+  text-align: center;
+  padding: 5rem 2rem 0;
+}
+
+.ow-marquee-footer h2 {
+  font-size: clamp(1.5rem, 4vw, 3.5rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.ow-marquee-footer p {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  opacity: 0.6;
+  margin-bottom: 2rem;
+}
+
+.ow-marquee-cta {
+  display: inline-block;
+  padding: 0.9rem 2.5rem;
+  background: var(--color-gold);
+  color: var(--color-white);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: opacity 0.3s ease;
+}
+
+.ow-marquee-cta:hover {
+  opacity: 0.8;
+}
+
+@keyframes ow-scroll-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @media (max-width: 768px) {
+  .ow-marquee-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0 1.5rem 2rem;
+  }
+
+  .ow-marquee-logo {
+    width: 130px;
+    padding: 1rem;
+  }
+
+  .ow-marquee-logo img {
+    height: 70px;
+  }
+
+  .ow-marquee-content {
+    gap: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
   .ow-intro-section {
     height: 80vh;
     padding: 2rem;

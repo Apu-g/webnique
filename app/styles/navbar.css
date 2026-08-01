@@ -1,204 +1,276 @@
-/* ─── Navbar & Header ───────────────────────────────────────────────────────── */
-.main-header {
-    width: 100%;
+/* ─── Glass Navbar ──────────────────────────────────────────────────────────── */
+
+.glass-navbar {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: auto;
+  max-width: calc(100% - 40px);
 }
 
-.logo-work-container {
-    position: relative;
+.glass-navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 0.6rem 1.8rem;
+  background: rgba(20, 20, 16, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.glass-navbar__logo {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-gold);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+}
+
+.glass-navbar__logo:hover {
+  color: var(--color-gold-light);
+}
+
+.glass-navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.glass-navbar__link {
+  background: none;
+  border: none;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  padding: 0.4rem 0.9rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+  white-space: nowrap;
+}
+
+.glass-navbar__link:hover {
+  color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Products Dropdown ─── */
+.glass-navbar__products {
+  position: relative;
+}
+
+.glass-navbar__products-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.glass-navbar__chevron {
+  transition: transform 0.2s ease;
+}
+
+.glass-navbar__products-btn.is-open .glass-navbar__chevron {
+  transform: rotate(180deg);
+}
+
+.glass-navbar__dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  min-width: 200px;
+  background: rgba(20, 20, 16, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 0.5rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.glass-navbar__dropdown.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.glass-navbar__dropdown-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--color-text-primary);
+  transition: background 0.2s ease;
+}
+
+.glass-navbar__dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.glass-navbar__dropdown-name {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.glass-navbar__dropdown-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.15rem;
+}
+
+/* ─── Hamburger (mobile) ─── */
+.glass-navbar__hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.glass-navbar__hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--color-text-primary);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.glass-navbar__hamburger.is-open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.glass-navbar__hamburger.is-open span:nth-child(2) {
+  opacity: 0;
+}
+.glass-navbar__hamburger.is-open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* ─── Mobile Overlay ─── */
+.glass-navbar__mobile {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .glass-navbar__links {
+    display: none;
+  }
+
+  .glass-navbar__hamburger {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 60px;
-    height: 55px;
-}
+  }
 
-.navbar.is-scrolled .logo-work-container {
-    width: auto;
-    height: auto;
-    padding: 6px 16px 6px 10px;
-    background-color: var(--color-dark);
-    border-radius: 40px;
-    gap: 4px;
-}
-
-.navbar.is-scrolled .logo-work-text {
-    color: var(--color-dark);
-}
-
-.navbar.is-scrolled .logo-work-text:hover {
-    color: var(--color-gold);
-}
-
-.nav-bar__work-blob-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    color: var(--color-gold);
-}
-
-.navbar.is-scrolled .nav-bar__work-blob-svg {
-    color: var(--color-dark);
-}
-
-.logo-work-text {
-    position: relative;
-    z-index: 2;
-    font-family: 'Epilogue', sans-serif;
-    font-weight: 800;
-    font-size: 2rem;
-    margin-left: 60px;
-    color: inherit;
-    letter-spacing: -0.5px;
-    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 30px 80px; /* Increased padding */
-    background: transparent;
-    z-index: 1000;
-    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-                background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.navbar.is-scrolled {
-    background-color: var(--bg-color);
-    color: var(--color-dark);
-}
-
-.navbar.on-dark {
-    color: var(--bg-color);
-}
-
-.navbar.on-light {
-    color: var(--color-dark);
-}
-
-.logo-work-text {
-    transition: color 0.3s ease;
-    color: var(--color-gold);
-}
-
-.navbar .logo-work-text:hover {
-    color: var(--color-white);
-}
-
-.navbar.is-scrolled .logo-work-text {
-    color: var(--color-dark);
-}
-
-.navbar.is-scrolled .logo-work-text:hover {
-    color: var(--color-gold);
-}
-
-
-
-/* ─── Full-screen dark overlay when navbar popout is open ─── */
-.nav-overlay {
+  .glass-navbar__mobile {
+    display: block;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.35);
-    z-index: 99;
+    z-index: 999;
+    pointer-events: none;
     opacity: 0;
     visibility: hidden;
-    pointer-events: none;
-}
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
 
-.nav-hover-trigger {
-    position: relative;
-}
-
-.nav-popout {
-    position: absolute;
-    background: var(--bg-color);
-    /* Off-white beige from image */
-    color: var(--color-dark);
-    border-radius: 16px;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    z-index: 100;
-    overflow: visible;
-}
-
-.nav-popout-inner {
-    display: flex;
-    flex-direction: column;
-}
-
-.nav-hover-trigger .nav-popout {
+  .glass-navbar__mobile.is-open {
     pointer-events: auto;
-}
+    opacity: 1;
+    visibility: visible;
+  }
 
-/* Base text styling */
-.nav-popout h4,
-.nav-popout p,
-.nav-popout a {
-    font-family: 'Epilogue', sans-serif;
-    margin: 0;
-}
+  .glass-navbar__mobile-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
 
-/* --- Right Popout (Work) --- */
-.nav-right .nav-popout {
-    top: 8px;
-    right: -8px; /* Stick to right instead of left */
-    width: 320px;
-    height: 500px;
-}
-
-.nav-right .nav-popout-inner {
-    width: 100%;
-    height: 100%;
-    padding: 90px 24px 24px 24px;
-    gap: 8px;
+  .glass-navbar__mobile-content {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
+    align-items: center;
+    padding: 100px 32px 60px;
+    gap: 8px;
+  }
 
-.nav-right .logo-work-container {
-    position: relative;
-    z-index: 105;
-    /* Keeps logo ABOVE the popout background */
-}
-
-/* Force text dark when hovering, since popout bg is light */
-.nav-right:hover .logo-work-text {
-    color: var(--color-dark) !important;
-}
-
-/* Menu items */
-.nav-menu-item {
-    display: block;
-    width: 100%;
-    text-align: center;
+  .glass-navbar__mobile-link {
     background: none;
     border: none;
     font-family: 'Epilogue', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--color-dark);
-    padding: 14px 20px;
-    border-radius: 12px;
-    cursor: url("/assets/Cursor SVG/cursor-pointer.svg") 12 12, pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
-}
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+    font-weight: 800;
+    color: var(--color-text-primary);
+    padding: 10px 0;
+    cursor: pointer;
+    text-transform: lowercase;
+    letter-spacing: -1px;
+    transition: color 0.2s ease;
+  }
 
-.nav-menu-item:nth-child(even) {
+  .glass-navbar__mobile-link:active {
     color: var(--color-gold);
-}
+  }
 
-.nav-menu-item:hover {
-    background-color: rgba(0, 0, 0, 0.08);
-    transform: scale(1.05);
-    color: var(--color-dark);
-}
+  .glass-navbar__mobile-products {
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .glass-navbar__mobile-products-label {
+    font-family: 'Epilogue', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-text-secondary);
+    margin-bottom: 12px;
+  }
+
+  .glass-navbar__mobile-product {
+    display: block;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-gold);
+    text-decoration: none;
+    padding: 8px 0;
+  }
+
+  .glass-navbar__mobile-product span {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    margin-top: 2px;
+  }
+
+  .glass-navbar__mobile-product:active {
+    opacity: 0.7;
+  }
+}

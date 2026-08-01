@@ -400,7 +400,7 @@
 
 /* ─── Theme colours ─── */
 .ow-ink {
-  background: var(--color-black-soft);
+  background: var(--card-bg);
   color: var(--color-white);
 }
 .ow-ink .ow-intro-label {
@@ -586,7 +586,7 @@
 }
 
 .ow-marquee-logo:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--hover-surface);
 }
 
 .ow-marquee-logo img {

@@ -203,25 +203,6 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   HORIZONTAL WORDS — Mobile: Keep marquee, increase size
-   ═══════════════════════════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-    .horizontal-words__h2 {
-        font-size: clamp(3rem, 15vw, 6rem);
-    }
-    
-    .horizontal-words__relative {
-        padding-left: 15vw;
-        padding-right: 15vw;
-    }
-
-    .horizontal-words__bottom-text-l {
-        font-size: clamp(1rem, 4vw, 1.3rem);
-        max-width: 100%;
-    }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════════
    MOTION CARDS — Mobile Stack Layout
    ═══════════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {

@@ -16,12 +16,13 @@
   justify-content: center;
   gap: 2rem;
   padding: 0.6rem 1.8rem;
-  background: rgba(20, 20, 16, 0.75);
+  background: var(--glass-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
   border-radius: 50px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--glass-shadow);
+  transition: background-color 0.35s ease, border-color 0.35s ease;
 }
 
 .glass-navbar__logo {
@@ -60,7 +61,7 @@
 
 .glass-navbar__link:hover {
   color: var(--color-text-primary);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--hover-surface);
 }
 
 /* ─── Products Dropdown ─── */
@@ -88,10 +89,10 @@
   left: 50%;
   transform: translateX(-50%) translateY(4px);
   min-width: 200px;
-  background: rgba(20, 20, 16, 0.85);
+  background: var(--glass-bg-strong);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
   border-radius: 14px;
   padding: 0.5rem;
   opacity: 0;
@@ -119,7 +120,7 @@
 }
 
 .glass-navbar__dropdown-item:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--hover-surface);
 }
 
 .glass-navbar__dropdown-name {
@@ -146,7 +147,11 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 6px;
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .glass-navbar__hamburger span {
@@ -167,6 +172,47 @@
 .glass-navbar__hamburger.is-open span:nth-child(3) {
   transform: translateY(-6px) rotate(-45deg);
 }
+
+/* ─── Theme toggle (sun / moon) ─── */
+.glass-navbar__theme {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--hover-surface);
+  border: 1px solid var(--glass-border);
+  color: var(--color-gold);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.glass-navbar__theme:hover {
+  background: var(--glass-bg-strong);
+  transform: scale(1.06);
+}
+
+.glass-navbar__theme-icons {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.glass-navbar__theme-icon {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.3s ease, transform 0.35s ease;
+}
+
+html[data-theme='dark'] .glass-navbar__theme-icon--sun { opacity: 1; transform: rotate(0deg) scale(1); }
+html[data-theme='dark'] .glass-navbar__theme-icon--moon { opacity: 0; transform: rotate(90deg) scale(0.4); }
+html[data-theme='light'] .glass-navbar__theme-icon--sun { opacity: 0; transform: rotate(-90deg) scale(0.4); }
+html[data-theme='light'] .glass-navbar__theme-icon--moon { opacity: 1; transform: rotate(0deg) scale(1); }
 
 /* ─── Mobile Overlay ─── */
 .glass-navbar__mobile {
@@ -202,7 +248,7 @@
   .glass-navbar__mobile-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--overlay-backdrop);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
@@ -272,5 +318,140 @@
 
   .glass-navbar__mobile-product:active {
     opacity: 0.7;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   ADAPTIVE PHONE SUPPORT — all phone sizes, notches, landscape, short screens
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Floating bar: safe-area top (notch phones), slimmer padding */
+@media (max-width: 900px) {
+  .glass-navbar {
+    top: max(16px, env(safe-area-inset-top));
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: calc(100% - 24px);
+  }
+
+  .glass-navbar__inner {
+    gap: 0.75rem;
+    padding: 0.35rem 0.5rem 0.35rem 1.25rem;
+    border-radius: 40px;
+  }
+
+  .glass-navbar__logo {
+    font-size: 1.1rem;
+  }
+}
+
+/* Overlay: dynamic viewport height + scroll safety + safe-area padding */
+@media (max-width: 900px) {
+  .glass-navbar__mobile {
+    height: 100%;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .glass-navbar__mobile-content {
+    justify-content: center;
+    padding: calc(env(safe-area-inset-top) + 72px) 24px calc(env(safe-area-inset-bottom) + 48px);
+    gap: 6px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Auto-margin pseudo elements keep the centered menu scrollable
+     without clipping content at the top or bottom. */
+  .glass-navbar__mobile-content::before,
+  .glass-navbar__mobile-content::after {
+    content: '';
+    margin: auto;
+  }
+
+  .glass-navbar__mobile-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+    padding: 4px 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .glass-navbar__mobile-product {
+    min-height: 40px;
+    padding: 6px 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Small phones (≤ 360px) — compact everything */
+@media (max-width: 360px) {
+  .glass-navbar__inner {
+    gap: 0.5rem;
+    padding: 0.3rem 0.4rem 0.3rem 1rem;
+  }
+
+  .glass-navbar__logo {
+    font-size: 1rem;
+  }
+
+  .glass-navbar__hamburger {
+    width: 40px;
+    height: 40px;
+  }
+
+  .glass-navbar__theme {
+    width: 40px;
+    height: 40px;
+  }
+
+  .glass-navbar__mobile-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .glass-navbar__mobile-link {
+    font-size: 1.45rem;
+    min-height: 40px;
+  }
+
+  .glass-navbar__mobile-products-label {
+    font-size: 0.7rem;
+  }
+
+  .glass-navbar__mobile-product {
+    font-size: 1.05rem;
+  }
+}
+
+/* Short screens / landscape phones — compact, top-aligned, scrollable */
+@media (max-width: 900px) and (max-height: 500px) {
+  .glass-navbar__mobile-content {
+    justify-content: flex-start;
+    padding-top: calc(env(safe-area-inset-top) + 60px);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 16px);
+    gap: 2px;
+  }
+
+  .glass-navbar__mobile-content::before,
+  .glass-navbar__mobile-content::after {
+    margin: 0;
+  }
+
+  .glass-navbar__mobile-link {
+    font-size: 1.1rem;
+    min-height: 36px;
+    padding: 2px 0;
+  }
+
+  .glass-navbar__mobile-products {
+    margin-top: 12px;
+  }
+
+  .glass-navbar__mobile-products-label {
+    margin-bottom: 6px;
   }
 }

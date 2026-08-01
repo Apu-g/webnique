@@ -1,0 +1,337 @@
+/* ─── Webnique Hero (home page — floating services animation) ───────────────── */
+
+.webnique-hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 120px 24px 84px;
+  background:
+    radial-gradient(ellipse at 50% -20%, var(--hero-glow-gold), transparent 55%),
+    radial-gradient(ellipse at 88% 110%, var(--hero-glow-navy), transparent 60%),
+    radial-gradient(ellipse at 8% 110%, var(--hero-glow-gold-soft), transparent 55%),
+    var(--bg-color);
+  color: var(--color-text-primary);
+}
+
+/* ── Ambient background layer ── */
+.webnique-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.webnique-hero__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(48px);
+  opacity: 0.45;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.webnique-hero__orb--1 {
+  width: 620px;
+  height: 620px;
+  background: radial-gradient(circle, var(--hero-glow-gold) 0%, rgba(201, 243, 29, 0.04) 60%, transparent 100%);
+  top: -20%;
+  left: -12%;
+  animation: webniqueOrbFloat1 22s ease-in-out infinite alternate;
+}
+
+.webnique-hero__orb--2 {
+  width: 720px;
+  height: 720px;
+  background: radial-gradient(circle, var(--hero-glow-navy) 0%, rgba(201, 243, 29, 0.06) 60%, transparent 100%);
+  bottom: -25%;
+  right: -12%;
+  animation: webniqueOrbFloat2 26s ease-in-out infinite alternate;
+}
+
+.webnique-hero__orb--3 {
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, var(--ghost-bg) 0%, rgba(255, 255, 255, 0.02) 60%, transparent 100%);
+  top: 30%;
+  left: 38%;
+  animation: webniqueOrbFloat3 30s ease-in-out infinite alternate;
+}
+
+.webnique-hero__grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.09;
+  background-image:
+    linear-gradient(to right, rgba(201, 243, 29, 0.35) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(201, 243, 29, 0.35) 1px, transparent 1px);
+  background-size: 64px 64px;
+  animation: webniqueGridDrift 34s linear infinite;
+  mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 75%);
+}
+
+@keyframes webniqueOrbFloat1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(120px, 90px) scale(1.15); }
+  100% { transform: translate(-70px, 150px) scale(0.92); }
+}
+
+@keyframes webniqueOrbFloat2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-150px, -110px) scale(1.2); }
+  100% { transform: translate(80px, -70px) scale(0.88); }
+}
+
+@keyframes webniqueOrbFloat3 {
+  0%   { transform: translate(0, 0) scale(0.95); }
+  50%  { transform: translate(-110px, 90px) scale(1.25); }
+  100% { transform: translate(120px, -80px) scale(1); }
+}
+
+@keyframes webniqueGridDrift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 128px 128px; }
+}
+
+/* ── Floating service animations ── */
+.webnique-hero__fx {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, filter, opacity;
+}
+
+.webnique-hero__floater {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.webnique-hero__floater::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 170%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--hero-glow-gold) 0%, transparent 62%);
+  z-index: -1;
+}
+
+.webnique-hero__floater-lottie {
+  width: 150px;
+  height: 150px;
+}
+
+.webnique-hero__floater-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  text-shadow: 0 1px 8px var(--label-shadow);
+}
+
+/* Desktop placement — scattered around the edges */
+.webnique-hero__floater--marketing { top: 15%; left: 7%; }
+.webnique-hero__floater--content   { top: 14%; right: 8%; }
+.webnique-hero__floater--global    { bottom: 24%; left: 20%; }
+
+/* ── Centered content ── */
+.webnique-hero__content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 900px;
+  gap: 16px;
+}
+
+.webnique-hero__logo img {
+  height: 68px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 24px rgba(201, 243, 29, 0.35));
+}
+
+.webnique-hero__brand {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-top: -4px;
+}
+
+.webnique-hero__title {
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.3rem, 6vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.webnique-hero__title-accent {
+  display: block;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: -1px;
+  color: var(--color-gold);
+}
+
+.webnique-hero__subtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 560px;
+}
+
+.webnique-hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.webnique-hero__btn {
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.webnique-hero__btn--gold {
+  background: var(--color-gold);
+  color: var(--color-black-deep);
+  box-shadow: 0 8px 30px rgba(201, 243, 29, 0.35);
+}
+
+.webnique-hero__btn--gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(201, 243, 29, 0.5);
+}
+
+.webnique-hero__btn--ghost {
+  background: var(--ghost-bg);
+  border: 1px solid var(--ghost-border);
+  color: var(--color-text-primary);
+}
+
+.webnique-hero__btn--ghost:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  transform: translateY(-2px);
+}
+
+/* ── Scroll hint ── */
+.webnique-hero__scroll {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.webnique-hero__scroll svg {
+  animation: webniqueScrollBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes webniqueScrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(6px); }
+}
+
+/* ── Blur transition veil (hero → next section) ── */
+.webnique-hero__veil {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 32%;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(var(--veil-rgb), 0) 0%, rgba(var(--veil-rgb), 0.55) 55%, var(--bg-color) 100%);
+}
+
+/* ── Tablet ── */
+@media (max-width: 1024px) {
+  .webnique-hero__floater-lottie { width: 120px; height: 120px; }
+  .webnique-hero__floater-label { display: none; }
+  .webnique-hero__floater--global    { left: 16%; }
+}
+
+/* ── Phone ── */
+@media (max-width: 768px) {
+  .webnique-hero {
+    padding: 112px 20px 92px;
+  }
+
+  .webnique-hero__floater { gap: 4px; }
+  .webnique-hero__floater-lottie { width: 92px; height: 92px; }
+  .webnique-hero__floater-label { display: none; }
+
+  .webnique-hero__floater--marketing { top: 11%; left: 3%; }
+  .webnique-hero__floater--content   { top: 11%; right: 3%; }
+  .webnique-hero__floater--global    { bottom: 22%; left: 5%; }
+
+  .webnique-hero__logo img { height: 52px; }
+  .webnique-hero__brand { font-size: 0.66rem; letter-spacing: 0.3em; }
+  .webnique-hero__title { font-size: clamp(1.9rem, 8vw, 3rem); letter-spacing: -1.5px; }
+  .webnique-hero__subtitle { font-size: 0.9rem; }
+  .webnique-hero__btn { padding: 12px 26px; font-size: 0.88rem; }
+}
+
+@media (max-width: 390px) {
+  .webnique-hero__floater-lottie { width: 80px; height: 80px; }
+  .webnique-hero__floater--global    { bottom: 18%; }
+}
+
+/* ── Landscape phones / short screens ── */
+@media (max-width: 900px) and (max-height: 500px) {
+  .webnique-hero { padding: 70px 20px 50px; }
+  .webnique-hero__floater { display: none; }
+  .webnique-hero__logo img { height: 40px; }
+  .webnique-hero__title { font-size: clamp(1.4rem, 5vw, 2.2rem); }
+  .webnique-hero__scroll { display: none; }
+}

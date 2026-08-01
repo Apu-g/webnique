@@ -2,7 +2,7 @@
 
 import SvgSymbols from '@/components/SvgSymbols';
 import Navbar from '@/components/Navbar';
-import VimeoHero from '@/components/VimeoHero';
+import Hero from '@/components/Hero';
 import ServiceCards from '@/components/ServiceCards';
 import MotionCards from '@/components/MotionCards';
 import Showreel from '@/components/Showreel';
@@ -14,7 +14,6 @@ import TransitionScribble from '@/components/TransitionScribble';
 import CursorBubble from '@/components/CursorBubble';
 import SmoothScroll from '@/components/SmoothScroll';
 
-import HorizontalWords from '@/components/HorizontalWords';
 import ProductsSection from '@/components/ProductsSection';
 
 export default function Home() {
@@ -25,15 +24,14 @@ export default function Home() {
             <CursorBubble />
             <header className="main-header">
                 <Navbar />
-                <VimeoHero />
+                <Hero />
             </header>
-            <HorizontalWords />
             <main>
                 <div className="content-section motion-cards-wrapper">
                     <MotionCards />
                 </div>
                 <Showreel />
-                <div className="content-section service-cards-wrapper">
+                <div className="content-section service-cards-wrapper" id="services">
                     <ServiceCards />
                 </div>
                 <ProductsSection />

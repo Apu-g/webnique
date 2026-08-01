@@ -5,7 +5,7 @@
 }
 
 .footer-inner {
-    background-color: var(--color-black-soft);
+    background-color: var(--card-bg);
     border-radius: 20px;
     padding: 80px 40px 40px;
     position: relative;

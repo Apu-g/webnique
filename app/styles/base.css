@@ -13,6 +13,8 @@
 
 /* ─── Design Tokens ─────────────────────────────────────────────────────────── */
 :root {
+    color-scheme: dark;
+
     --color-gold: #c9f31d;
     --color-gold-light: #ddf55a;
     --color-gold-dark: #a3c418;
@@ -23,6 +25,7 @@
     --color-orange: #c9a96e;
     --color-maroon: #9e7a7a;
     --color-pink: #dcc8c8;
+    --color-charcoal: #181818;
     --bg-color: #141410;
     --color-white: #ffffff;
     --color-black: #000000;
@@ -30,9 +33,61 @@
     --color-light: #f0ede8;
     --color-black-soft: #1a1815;
     --color-black-deep: #121010;
+    --card-bg: #1a1815;
     --color-text-primary: #e8e8e3;
     --color-text-secondary: #999999;
     --color-border: #333333;
+
+    /* Theme-aware surfaces */
+    --glass-bg: rgba(20, 20, 16, 0.75);
+    --glass-bg-strong: rgba(20, 20, 16, 0.92);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --hover-surface: rgba(255, 255, 255, 0.06);
+    --overlay-backdrop: rgba(0, 0, 0, 0.5);
+    --ghost-bg: rgba(255, 255, 255, 0.03);
+    --ghost-border: rgba(255, 255, 255, 0.2);
+    --label-shadow: rgba(0, 0, 0, 0.8);
+    --veil-rgb: 20, 20, 16;
+    --hero-glow-gold: rgba(201, 243, 29, 0.09);
+    --hero-glow-gold-soft: rgba(201, 243, 29, 0.05);
+    --hero-glow-navy: rgba(0, 13, 39, 0.85);
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* ─── Light Theme ───────────────────────────────────────────────────────────── */
+:root[data-theme='light'] {
+    color-scheme: light;
+
+    --color-gold: #7f9d0e;
+    --color-gold-light: #94b51a;
+    --color-gold-dark: #5f7a08;
+    --bg-color: #f4f2ec;
+    --color-black-soft: #ffffff;
+    --color-black-deep: #17170f;
+    --color-text-primary: #1b1b14;
+    --color-text-secondary: #63635a;
+    --color-border: #dcd8cd;
+
+    --glass-bg: rgba(255, 255, 255, 0.72);
+    --glass-bg-strong: rgba(255, 255, 255, 0.94);
+    --glass-border: rgba(20, 20, 16, 0.1);
+    --glass-shadow: 0 8px 32px rgba(20, 20, 16, 0.12);
+    --hover-surface: rgba(20, 20, 16, 0.05);
+    --overlay-backdrop: rgba(15, 15, 10, 0.4);
+    --ghost-bg: rgba(20, 20, 16, 0.03);
+    --ghost-border: rgba(20, 20, 16, 0.25);
+    --label-shadow: rgba(255, 255, 255, 0);
+    --veil-rgb: 244, 242, 236;
+    --hero-glow-gold: rgba(127, 157, 14, 0.12);
+    --hero-glow-gold-soft: rgba(127, 157, 14, 0.06);
+    --hero-glow-navy: rgba(201, 243, 29, 0.28);
+    --shadow-soft: 0 10px 30px rgba(20, 20, 16, 0.08);
+}
+
+:root[data-theme='light'] ::selection {
+    background-color: var(--color-gold);
+    color: #ffffff;
 }
 
 /* ─── Reset ─────────────────────────────────────────────────────────────────── */
@@ -76,6 +131,7 @@ body {
     scrollbar-width: none;
     -ms-overflow-style: none;
     cursor: url("/assets/Cursor SVG/cursor-default.svg") 2 0, auto;
+    transition: background-color 0.35s ease, color 0.35s ease;
 }
 
 html {

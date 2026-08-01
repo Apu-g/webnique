@@ -3,6 +3,16 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useTransition } from './TransitionContext';
+import { Sun, Moon } from 'lucide-react';
+
+const THEME_KEY = 'webnique-theme';
+
+function getInitialTheme() {
+  if (typeof window === 'undefined') return 'dark';
+  const stored = localStorage.getItem(THEME_KEY);
+  if (stored === 'light' || stored === 'dark') return stored;
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
 
 const PRODUCTS = [
   { name: 'Quip', href: 'https://quip.wb-roots.com/', desc: 'AI-powered customer support' },
@@ -36,7 +46,19 @@ export default function Navbar() {
   const transition = useTransition();
   const [menuOpen, setMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [theme, setTheme] = useState(getInitialTheme);
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch (e) { /* ignore */ }
+  }, [theme]);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
+  }, []);
 
   const handleNav = useCallback((target, route) => {
     setMenuOpen(false);
@@ -61,8 +83,21 @@ export default function Navbar() {
     if (!menuOpen) return;
     const handleKey = (e) => { if (e.key === 'Escape') setMenuOpen(false); };
     document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      document.body.style.overflow = prevOverflow;
+    };
   }, [menuOpen]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 900) setMenuOpen(false);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     function handleClick(e) {
@@ -120,6 +155,19 @@ export default function Navbar() {
               </div>
             </div>
           </div>
+
+          <button
+            className="glass-navbar__theme"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            aria-pressed={theme === 'light'}
+            title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+          >
+            <span className="glass-navbar__theme-icons">
+              <Sun className="glass-navbar__theme-icon glass-navbar__theme-icon--sun" strokeWidth={1.8} size={16} />
+              <Moon className="glass-navbar__theme-icon glass-navbar__theme-icon--moon" strokeWidth={1.8} size={16} />
+            </span>
+          </button>
 
           <button
             className={`glass-navbar__hamburger ${menuOpen ? 'is-open' : ''}`}

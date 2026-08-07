@@ -35,6 +35,8 @@ export default function ExitPage() {
                 isAnimating = true;
                 localIsOpen = true;
                 exitPageRef.current.classList.add('is-open');
+                const contentEl = exitPageRef.current.querySelector('.exit-page-content');
+                if (contentEl) contentEl.scrollTop = 0;
                 if (window.__lenis) window.__lenis.stop();
 
                 const tl = gsap.timeline({
@@ -102,7 +104,7 @@ export default function ExitPage() {
 
             ScrollTrigger.create({
                 trigger: '.ready-to-start',
-                start: 'bottom bottom',
+                start: 'bottom bottom+=150',
                 onEnter: () => {
                     if (!localIsOpen) {
                         openExitPage();
@@ -157,7 +159,7 @@ export default function ExitPage() {
                 <path ref={menuBgRef} fill="var(--color-darkblue)" d="M1131,0 Q565.5,0 0,0 L0,0 L1131,0 Z" />
             </svg>
             
-            <div className="exit-page-content">
+            <div className="exit-page-content" data-lenis-prevent>
                 <button className="exit-close-btn" onClick={() => window.closeExitPage && window.closeExitPage()}>
                     ✕ Close
                 </button>

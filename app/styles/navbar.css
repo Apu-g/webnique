@@ -358,8 +358,14 @@ html[data-theme='light'] .glass-navbar__theme-icon--moon { opacity: 1; transform
     padding: calc(env(safe-area-inset-top) + 72px) 24px calc(env(safe-area-inset-bottom) + 48px);
     gap: 6px;
     overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .glass-navbar__mobile-content::-webkit-scrollbar {
+    display: none;
   }
 
   /* Auto-margin pseudo elements keep the centered menu scrollable

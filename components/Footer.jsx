@@ -82,7 +82,7 @@ export default function Footer() {
         <div className="footer-inner">
             <div className="footer-top">
                 {/* Column 1: Get In Touch & Bio */}
-                <div className="footer-column" style={{ flex: '1.5', minWidth: '300px' }}>
+                <div className="footer-column" style={{ flex: '1.5', minWidth: 'min(300px, 100%)' }}>
                     <div className="footer-logo" style={{ marginBottom: '20px' }}>
                         <img src="/images/logo/logo-transparent.png" alt="Webnique" style={{ height: '50px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
                     </div>

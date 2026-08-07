@@ -167,17 +167,17 @@
 }
 
 .webnique-hero__logo img {
-  height: 7rem;
+  height: 9rem;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 0 1.5rem rgba(201, 243, 29, 0.35));
+  filter: drop-shadow(0 0 1.875rem rgba(201, 243, 29, 0.35));
 }
 
 .webnique-hero__brand {
   font-family: 'Epilogue', sans-serif;
-  font-size: clamp(1.25rem, 2.6vw, 1.9rem);
-  font-weight: 800;
-  letter-spacing: 0.3em;
+  font-size: clamp(1.75rem, 4.2vw, 3.25rem);
+  font-weight: 900;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--color-gold);
   line-height: 1.2;
@@ -187,7 +187,7 @@
 .webnique-hero__title {
   font-family: 'Epilogue', sans-serif;
   font-weight: 800;
-  font-size: clamp(1.5rem, 3.4vw, 2.75rem);
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
   line-height: 1.12;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -318,9 +318,9 @@
   .webnique-hero__floater--stack  { top: 11%; right: 3%; }
   .webnique-hero__floater--api    { bottom: 22%; left: 5%; }
 
-  .webnique-hero__logo img { height: 5rem; }
-  .webnique-hero__brand { font-size: clamp(1.05rem, 4vw, 1.25rem); letter-spacing: 0.26em; }
-  .webnique-hero__title { font-size: clamp(1.35rem, 5.6vw, 1.9rem); letter-spacing: 0.02em; }
+  .webnique-hero__logo img { height: 6.5rem; }
+  .webnique-hero__brand { font-size: clamp(1.35rem, 6.5vw, 2rem); letter-spacing: 0.2em; }
+  .webnique-hero__title { font-size: clamp(1.25rem, 5vw, 1.7rem); letter-spacing: 0.02em; }
   .webnique-hero__subtitle { font-size: 0.85rem; }
   .webnique-hero__btn { padding: 0.75rem 1.625rem; font-size: 0.85rem; }
 }
@@ -334,7 +334,7 @@
 @media (max-width: 900px) and (max-height: 500px) {
   .webnique-hero { padding: 4.375rem 1.25rem 3.125rem; }
   .webnique-hero__floater { display: none; }
-  .webnique-hero__logo img { height: 3rem; }
-  .webnique-hero__title { font-size: clamp(1.2rem, 4vw, 1.75rem); }
+  .webnique-hero__logo img { height: 3.5rem; }
+  .webnique-hero__title { font-size: clamp(1.2rem, 4vw, 1.6rem); }
   .webnique-hero__scroll { display: none; }
 }

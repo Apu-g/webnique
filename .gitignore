@@ -43,3 +43,10 @@ next-env.d.ts
 # agent configs
 .agent/
 webnique-site/
+
+# scratch / temp dirs
+.poppr/
+.truus-clone/
+temp_cards/
+temp_landing/
+temp_transition/

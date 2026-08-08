@@ -1,50 +1,42 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
-import { motion, MotionConfig, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, MotionConfig, useScroll, useTransform } from 'framer-motion';
 import Lottie from 'lottie-react';
 
 const FLOATERS = [
   {
-    dark: '/animations/lordicon-code-dark.json',
-    light: '/animations/lordicon-code-light.json',
-    label: 'Clean Code',
+    type: 'img',
+    src: '/animations/hero-backend.png',
+    label: 'Backend & Code',
     className: 'webnique-hero__floater--code',
     dur: 11, delay: 0, dx: 14, dy: -22, rot: 5,
   },
   {
-    dark: '/animations/lordicon-command-dark.json',
-    light: '/animations/lordicon-command-light.json',
-    label: 'Modern Stack',
-    className: 'webnique-hero__floater--stack',
+    type: 'img',
+    src: '/animations/hero-marketing.png',
+    label: 'Digital Marketing',
+    className: 'webnique-hero__floater--marketing',
     dur: 10, delay: 0.4, dx: -14, dy: 20, rot: -5,
   },
   {
-    dark: '/animations/lordicon-api-dark.json',
-    light: '/animations/lordicon-api-light.json',
-    label: 'API Ready',
-    className: 'webnique-hero__floater--api',
+    type: 'lottie',
+    path: '/animations/growth.json',
+    label: 'Business Growth',
+    className: 'webnique-hero__floater--growth',
     dur: 12, delay: 0.7, dx: 12, dy: -18, rot: 4,
+  },
+  {
+    type: 'lottie',
+    path: '/animations/content-creation.json',
+    label: 'Content Creation',
+    className: 'webnique-hero__floater--content',
+    dur: 13, delay: 0.9, dx: -12, dy: 16, rot: -4,
   },
 ];
 
-function useTheme() {
-  const [theme, setTheme] = useState('dark');
-  useEffect(() => {
-    const el = document.documentElement;
-    const read = () => (el.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
-    setTheme(read());
-    const observer = new MutationObserver(() => setTheme(read()));
-    observer.observe(el, { attributes: true, attributeFilter: ['data-theme'] });
-    return () => observer.disconnect();
-  }, []);
-  return theme;
-}
-
 export default function Hero() {
   const heroRef = useRef(null);
-  const prefersReduced = useReducedMotion();
-  const theme = useTheme();
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
@@ -68,37 +60,48 @@ export default function Hero() {
           className="webnique-hero__fx"
           style={{ filter: heroBlur, opacity: heroOpacity, scale: heroScale }}
         >
-          {FLOATERS.map(({ dark, light, label, className, dur, delay, dx, dy, rot }) => (
-            <motion.div
-              key={label}
-              className={`webnique-hero__floater ${className}`}
-              aria-label={label}
-              initial={{ opacity: 0, scale: 0.6 }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-                x: [0, dx, 0],
-                y: [0, dy, 0],
-                rotate: [0, rot, -rot, 0],
-              }}
-              transition={{
-                opacity: { duration: 0.6, delay: 0.4 + delay },
-                scale: { duration: 0.6, delay: 0.4 + delay },
-                x: { duration: dur, delay, repeat: Infinity, ease: 'easeInOut' },
-                y: { duration: dur, delay, repeat: Infinity, ease: 'easeInOut' },
-                rotate: { duration: dur, delay, repeat: Infinity, ease: 'easeInOut' },
-              }}
-            >
-              <Lottie
-                key={theme}
-                className="webnique-hero__floater-lottie"
-                path={theme === 'dark' ? dark : light}
-                loop
-                autoplay={!prefersReduced}
-              />
-              <span className="webnique-hero__floater-label">{label}</span>
-            </motion.div>
-          ))}
+          {FLOATERS.map((floater) => {
+            const { label, className, dur, delay, dx, dy, rot } = floater;
+            return (
+              <motion.div
+                key={label}
+                className={`webnique-hero__floater ${className}`}
+                aria-label={label}
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  x: [0, dx, 0],
+                  y: [0, dy, 0],
+                  rotate: [0, rot, -rot, 0],
+                }}
+                transition={{
+                  opacity: { duration: 0.6, delay: 0.4 + delay },
+                  scale: { duration: 0.6, delay: 0.4 + delay },
+                  x: { duration: dur, delay, repeat: Infinity, ease: 'easeInOut' },
+                  y: { duration: dur, delay, repeat: Infinity, ease: 'easeInOut' },
+                  rotate: { duration: dur, delay, repeat: Infinity, ease: 'easeInOut' },
+                }}
+              >
+                {floater.type === 'lottie' ? (
+                  <Lottie
+                    className="webnique-hero__floater-img"
+                    path={floater.path}
+                    loop
+                    autoplay
+                  />
+                ) : (
+                  <img
+                    className="webnique-hero__floater-img"
+                    src={floater.src}
+                    alt={label}
+                    draggable="false"
+                  />
+                )}
+                <span className="webnique-hero__floater-label">{label}</span>
+              </motion.div>
+            );
+          })}
 
           <div className="webnique-hero__content">
             <motion.div

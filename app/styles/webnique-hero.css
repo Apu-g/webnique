@@ -134,9 +134,13 @@
   z-index: -1;
 }
 
-.webnique-hero__floater-lottie {
-  width: 9.375rem;
-  height: 9.375rem;
+.webnique-hero__floater-img {
+  display: block;
+  width: 6.5rem;
+  height: 6.5rem;
+  object-fit: contain;
+  image-rendering: auto;
+  flex-shrink: 0;
 }
 
 .webnique-hero__floater-label {
@@ -150,9 +154,10 @@
 }
 
 /* Desktop placement — scattered around the edges */
-.webnique-hero__floater--code   { top: 15%; left: 7%; }
-.webnique-hero__floater--stack  { top: 14%; right: 8%; }
-.webnique-hero__floater--api    { bottom: 24%; left: 20%; }
+.webnique-hero__floater--code      { top: 15%; left: 7%; }
+.webnique-hero__floater--marketing { top: 14%; right: 8%; }
+.webnique-hero__floater--growth    { bottom: 24%; right: 8%; }
+.webnique-hero__floater--content   { bottom: 26%; left: 8%; }
 
 /* ── Centered content ── */
 .webnique-hero__content {
@@ -297,11 +302,34 @@
   background: linear-gradient(to bottom, rgba(var(--veil-rgb), 0) 0%, rgba(var(--veil-rgb), 0.55) 55%, var(--bg-color) 100%);
 }
 
+/* ── Light theme ── */
+/* Baked-gold logo + floaters are re-toned to the deep olive gold so they stay
+   legible on the light background instead of washing out. */
+:root[data-theme='light'] .webnique-hero__logo img {
+  filter: brightness(0.62) saturate(1.05)
+          drop-shadow(0 0 1.5rem rgba(127, 157, 14, 0.28));
+}
+
+:root[data-theme='light'] .webnique-hero__floater-img {
+  filter: brightness(0.62) saturate(1.05);
+}
+
+:root[data-theme='light'] .webnique-hero__brand,
+:root[data-theme='light'] .webnique-hero__title-accent {
+  color: var(--color-gold-dark);
+}
+
+:root[data-theme='light'] .webnique-hero__grid {
+  opacity: 0.06;
+  background-image:
+    linear-gradient(to right, rgba(127, 157, 14, 0.45) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(127, 157, 14, 0.45) 1px, transparent 1px);
+}
+
 /* ── Tablet ── */
 @media (max-width: 1024px) {
-  .webnique-hero__floater-lottie { width: 7.5rem; height: 7.5rem; }
+  .webnique-hero__floater-img { width: 5.5rem; height: 5.5rem; }
   .webnique-hero__floater-label { display: none; }
-  .webnique-hero__floater--api    { left: 16%; }
 }
 
 /* ── Phone ── */
@@ -311,12 +339,13 @@
   }
 
   .webnique-hero__floater { gap: 0.25rem; }
-  .webnique-hero__floater-lottie { width: 5.75rem; height: 5.75rem; }
+  .webnique-hero__floater-img { width: 4.25rem; height: 4.25rem; }
   .webnique-hero__floater-label { display: none; }
 
-  .webnique-hero__floater--code   { top: 11%; left: 3%; }
-  .webnique-hero__floater--stack  { top: 11%; right: 3%; }
-  .webnique-hero__floater--api    { bottom: 22%; left: 5%; }
+  .webnique-hero__floater--code      { top: 11%; left: 3%; }
+  .webnique-hero__floater--marketing { top: 11%; right: 3%; }
+  .webnique-hero__floater--content   { bottom: 18%; left: 4%; }
+  .webnique-hero__floater--growth    { bottom: 18%; right: 4%; }
 
   .webnique-hero__logo img { height: 6.5rem; }
   .webnique-hero__brand { font-size: clamp(1.35rem, 6.5vw, 2rem); letter-spacing: 0.2em; }
@@ -326,8 +355,9 @@
 }
 
 @media (max-width: 390px) {
-  .webnique-hero__floater-lottie { width: 5rem; height: 5rem; }
-  .webnique-hero__floater--api    { bottom: 18%; }
+  .webnique-hero__floater-img { width: 3.5rem; height: 3.5rem; }
+  .webnique-hero__floater--content   { bottom: 15%; }
+  .webnique-hero__floater--growth    { bottom: 15%; }
 }
 
 /* ── Landscape phones / short screens ── */

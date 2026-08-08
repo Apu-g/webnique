@@ -7,13 +7,6 @@ import { Sun, Moon } from 'lucide-react';
 
 const THEME_KEY = 'webnique-theme';
 
-function getInitialTheme() {
-  if (typeof window === 'undefined') return 'dark';
-  const stored = localStorage.getItem(THEME_KEY);
-  if (stored === 'light' || stored === 'dark') return stored;
-  return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-}
-
 const PRODUCTS = [
   { name: 'Quip', href: 'https://quip.wb-roots.com/', desc: 'AI-powered customer support' },
   { name: 'WBFlow', href: 'https://wbflow.wb-roots.com/', desc: 'Business management simplified' },
@@ -46,7 +39,21 @@ export default function Navbar() {
   const transition = useTransition();
   const [menuOpen, setMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
-  const [theme, setTheme] = useState(getInitialTheme);
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    let t = 'dark';
+    try {
+      const stored = localStorage.getItem(THEME_KEY);
+      if (stored === 'light' || stored === 'dark') {
+        t = stored;
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        t = 'light';
+      }
+    } catch (e) { /* ignore */ }
+    setTheme(t);
+  }, []);
+
   const dropdownRef = useRef(null);
 
   useEffect(() => {

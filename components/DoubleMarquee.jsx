@@ -75,7 +75,7 @@ export default function DoubleMarquee() {
             scrollTrigger: {
                 trigger: '.Double-marquee',
                 start: 'top 70%',
-                toggleActions: 'play none none reverse' // Allow replaying on scroll out/in
+                toggleActions: 'play reverse play reverse'
             }
         });
 

@@ -4,6 +4,7 @@ import { useLayoutEffect } from 'react';
 import { TESTIMONIALS_DATA } from '@/lib/data';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import BlurReveal from '@/components/BlurReveal';
 
 export default function TestimonialsSection() {
     const row1 = TESTIMONIALS_DATA.slice(0, 4);
@@ -30,7 +31,7 @@ export default function TestimonialsSection() {
             scrollTrigger: {
                 trigger: '.testimonials-section',
                 start: 'top 70%',
-                toggleActions: 'play none none reverse'
+                toggleActions: 'play reverse play reverse'
             }
         });
 
@@ -45,9 +46,9 @@ export default function TestimonialsSection() {
     return (
         <section className="testimonials-section">
             <div className="testimonials-header">
-                <h2>
+                <BlurReveal as="h2">
                     Happy Words <br/> From Happy <span className="text-highlight">Customers</span>
-                </h2>
+                </BlurReveal>
                 <svg xmlns="http://www.w3.org/2000/svg" className="testimonials-underline" viewBox="0 0 132 5" fill="none">
                     <path d="M1 2.08377C44.3458 3.90451 87.9791 5.71442 131 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>

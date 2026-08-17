@@ -1,5 +1,7 @@
 'use client';
 
+import BlurReveal from '@/components/BlurReveal';
+
 const WORKS = [
   { brand: 'Car Fit', logo: '/images/clients/carfit.png', link: 'https://carfit.in/' },
   { brand: 'ELLZBURGER', logo: '/images/clients/burger-2.png', link: 'https://ellzburger.com/' },
@@ -30,9 +32,9 @@ export default function OurWorksSection() {
   return (
     <section className="our-works-marquee-section">
       <div className="ow-marquee-header">
-        <h2>
+        <BlurReveal as="h2">
           Proud to have <span className="text-highlight">worked with</span>
-        </h2>
+        </BlurReveal>
         <a href="/our-works" className="ow-marquee-cta-link">
           View All Projects
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">

@@ -37,5 +37,7 @@
 /* Products section (Quip + WBFlow)         */
 @import './styles/contact.css';
 /* Contact page                             */
+@import './styles/reveal.css';
+/* Scroll reveal animation helpers          */
 @import './styles/responsive.css';
 /* All media queries (tablet + mobile)      */

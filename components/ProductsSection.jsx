@@ -1,5 +1,8 @@
 'use client';
 
+import BlurReveal from '@/components/BlurReveal';
+import Reveal from '@/components/Reveal';
+
 export default function ProductsSection() {
     return (
         <section className="products-section" id="products-section">
@@ -10,17 +13,18 @@ export default function ProductsSection() {
                         Built by Webnique
                         <span className="products__eyebrow-line"></span>
                     </p>
-                    <h2 className="products__title">
+                    <BlurReveal as="h2" className="products__title">
                         Introducing our <span className="products__title--italic">products</span>
-                    </h2>
+                    </BlurReveal>
                 </div>
 
                 <div className="products__grid">
-                    <a
+                    <Reveal as="a"
                         href="https://quip.wb-roots.com/"
                         target="_blank"
                         rel="noreferrer"
                         className="products__card products__card--charcoal"
+                        start="top 85%"
                     >
                         <span className="products__card-number">01</span>
                         <h3 className="products__card-name">Quip</h3>
@@ -33,13 +37,15 @@ export default function ProductsSection() {
                                 <path d="M12 1L17 6M17 6L12 11M17 6H1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </span>
-                    </a>
+                    </Reveal>
 
-                    <a
+                    <Reveal as="a"
                         href="https://wbflow.wb-roots.com/"
                         target="_blank"
                         rel="noreferrer"
                         className="products__card products__card--orange"
+                        start="top 85%"
+                        delay={0.15}
                     >
                         <span className="products__card-number">02</span>
                         <h3 className="products__card-name">WBFlow</h3>
@@ -52,12 +58,12 @@ export default function ProductsSection() {
                                 <path d="M12 1L17 6M17 6L12 11M17 6H1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </span>
-                    </a>
+                    </Reveal>
                 </div>
 
-                <p className="products__footer-text">
+                <Reveal as="p" className="products__footer-text" start="top 90%">
                     Both products are brought to you by <strong>WBRoots</strong> — a Webnique venture.
-                </p>
+                </Reveal>
             </div>
         </section>
     );

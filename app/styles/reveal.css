@@ -1,0 +1,20 @@
+.blur-reveal .word {
+    display: inline-block;
+    will-change: opacity, transform, filter;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+.reveal-block {
+    will-change: opacity, transform, filter;
+    backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .blur-reveal .word,
+    .reveal-block {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+    }
+}

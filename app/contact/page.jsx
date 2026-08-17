@@ -6,6 +6,7 @@ import SmoothScroll from '@/components/SmoothScroll';
 import CursorBubble from '@/components/CursorBubble';
 import ExitPage from '@/components/ExitPage';
 import TransitionScribble from '@/components/TransitionScribble';
+import BlurReveal from '@/components/BlurReveal';
 
 export default function ContactPage() {
   return (
@@ -16,7 +17,7 @@ export default function ContactPage() {
       <Navbar />
       <main className="contact-page">
         <section className="contact-hero">
-          <h1>Get in <span className="text-highlight">Touch</span></h1>
+          <BlurReveal as="h1">Get in <span className="text-highlight">Touch</span></BlurReveal>
           <p>Let&apos;s create something amazing together.</p>
         </section>
         <section className="contact-form-section">

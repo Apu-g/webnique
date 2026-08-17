@@ -303,13 +303,21 @@ export default function WorksDetail() {
         ScrollTrigger.create({
           trigger: section,
           start: 'top 85%',
-          once: true,
+          toggleActions: 'play reverse play reverse',
           onEnter: () => {
             gsap.to(lineEls, {
               yPercent: 0,
               duration: 1.4,
               ease: 'power4.out',
               stagger: 0.08,
+            });
+          },
+          onLeaveBack: () => {
+            gsap.to(lineEls, {
+              yPercent: 90,
+              duration: 0.8,
+              ease: 'power2.in',
+              stagger: 0.04,
             });
           },
         });

@@ -4,6 +4,7 @@ import gsap from "gsap";
 import React, { useLayoutEffect, useRef } from "react";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import BlurReveal from "@/components/BlurReveal";
 
 gsap.registerPlugin(InertiaPlugin, ScrollTrigger);
 
@@ -82,7 +83,7 @@ export default function MotionCards() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top 70%",
-                    toggleActions: "play none none reverse"
+                    toggleActions: "play reverse play reverse"
                 }
             });
 
@@ -108,11 +109,11 @@ export default function MotionCards() {
             ref={sectionRef}
             className="motion-card-section" id="motion-card-section">
             <div className="motion-card__heading">
-                <h2 className="motion-card__title">
+                <BlurReveal as="h2" className="motion-card__title">
                     From Vision
                     <br />
                     to Results.
-                </h2>
+                </BlurReveal>
                 <p className="motion-card__subtitle">
                     Our Process
                     <span className="motion-card__sticker motion-card__sticker--top">
@@ -173,11 +174,11 @@ export default function MotionCards() {
             </div>
 
             <div className="motion-card__footer-text">
-                <p className="motion-card__description">
+                <BlurReveal as="p" className="motion-card__description" stagger={0.03} blur={8}>
                     We're more than just a digital agency -- we're your creative growth partners. 
                     With a team of passionate designers, strategists, developers, and marketers, 
                     we bring your brand's vision to life through innovative, high-quality solutions.
-                </p>
+                </BlurReveal>
             </div>
         </section>
     );

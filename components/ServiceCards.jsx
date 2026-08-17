@@ -4,6 +4,7 @@ import { useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CARDS_DATA } from '@/lib/data';
+import BlurReveal from '@/components/BlurReveal';
 
 export default function ServiceCards() {
     useLayoutEffect(() => {
@@ -19,7 +20,7 @@ export default function ServiceCards() {
                 scrollTrigger: {
                     trigger: '.service-cards-wrapper',
                     start: 'top 70%',
-                    toggleActions: 'play none none reverse'
+                    toggleActions: 'play reverse play reverse'
                 }
             });
 
@@ -33,7 +34,7 @@ export default function ServiceCards() {
         <>
             {/* ─── "Call us if you need:" Heading ─── */}
             <div className="title-container">
-                <h2 className="main-title">call us if you <span className="italic-text">need:</span></h2>
+                <BlurReveal as="h2" className="main-title">call us if you <span className="italic-text">need:</span></BlurReveal>
                 <svg xmlns="http://www.w3.org/2000/svg" width="160" viewBox="0 0 159 17" fill="none" className="title-underline-svg">
                     <path d="M1 12.1515C53.0771 5.7187 105.529 2.30552 158 1.93652" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                     <path d="M30.2672 15.9461C64.1899 12.8158 98.2663 11.3583 132.33 11.5735" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>

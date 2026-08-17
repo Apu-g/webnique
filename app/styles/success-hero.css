@@ -1,0 +1,11 @@
+/* ─── Success Hero Styles ─────────────────────────────────────────────── */
+
+/* 
+ * The layout for SuccessHero is predominantly handled by Tailwind utility classes.
+ * We add specific refinements here if needed, like unique shadows or custom fonts.
+ */
+
+.success-hero-headline-font {
+  font-family: 'Epilogue', sans-serif;
+  letter-spacing: -0.05em;
+}

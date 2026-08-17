@@ -2,7 +2,7 @@
 
 import SvgSymbols from '@/components/SvgSymbols';
 import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
+import SmartHero from '@/components/SmartHero';
 import ServiceCards from '@/components/ServiceCards';
 import MotionCards from '@/components/MotionCards';
 import Showreel from '@/components/Showreel';
@@ -24,7 +24,7 @@ export default function Home() {
             <CursorBubble />
             <header className="main-header">
                 <Navbar />
-                <Hero />
+                <SmartHero />
             </header>
             <main>
                 <div className="content-section motion-cards-wrapper">

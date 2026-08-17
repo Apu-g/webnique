@@ -1,0 +1,78 @@
+/* ─── Digital Hero (AI/Workflow Theme) ─────────────────────────────────────── */
+
+.digital-hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--color-text-primary);
+  /* The base background is handled by the tailwind classes + var(--bg-color) */
+}
+
+/* ── Ambient background layer ── */
+.digital-hero__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.5;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.digital-hero__orb--left {
+  width: 35rem;
+  height: 35rem;
+  background: radial-gradient(circle, var(--hero-glow-navy) 0%, rgba(201, 243, 29, 0.05) 60%, transparent 100%);
+  top: -15%;
+  left: -10%;
+  animation: digitalOrbFloat1 20s ease-in-out infinite alternate;
+}
+
+.digital-hero__orb--right {
+  width: 40rem;
+  height: 40rem;
+  background: radial-gradient(circle, var(--hero-glow-gold) 0%, rgba(201, 243, 29, 0.06) 60%, transparent 100%);
+  bottom: -20%;
+  right: -10%;
+  animation: digitalOrbFloat2 24s ease-in-out infinite alternate;
+}
+
+.digital-hero__grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.15;
+  background-image:
+    linear-gradient(to right, var(--color-text-primary) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-text-primary) 1px, transparent 1px);
+  background-size: 3rem 3rem;
+  animation: digitalGridDrift 30s linear infinite;
+  mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0) 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0) 70%);
+}
+
+@keyframes digitalOrbFloat1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(100px, 80px) scale(1.1); }
+  100% { transform: translate(-50px, 120px) scale(0.9); }
+}
+
+@keyframes digitalOrbFloat2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-120px, -90px) scale(1.15); }
+  100% { transform: translate(60px, -50px) scale(0.85); }
+}
+
+@keyframes digitalGridDrift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 6rem 6rem; }
+}
+
+/* ── Light theme specifics ── */
+:root[data-theme='light'] .digital-hero__grid {
+  opacity: 0.08;
+}

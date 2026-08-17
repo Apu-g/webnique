@@ -3,6 +3,8 @@
    Edit individual files in app/styles/ for section-specific changes.
 ───────────────────────────────────────────────────────────────────────────── */
 
+@import "tailwindcss";
+
 @import './styles/base.css';
 /* Fonts, CSS variables, reset, body/html  */
 @import './styles/navbar.css';
@@ -11,6 +13,10 @@
 /* Content section title + underline SVG    */
 @import './styles/webnique-hero.css';
 /* New Webnique hero (floating services)    */
+@import './styles/success-hero.css';
+/* Success Hero (3 Keys to Success)         */
+@import './styles/smart-hero.css';
+/* SmartHero — two-column SaaS layout       */
 @import './styles/motion-cards.css';
 /* MotionCard section (heading + cards + text)  */
 @import './styles/showreel.css';

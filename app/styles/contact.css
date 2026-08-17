@@ -107,4 +107,31 @@
   .contact-hero {
     margin-bottom: 40px;
   }
+  .contact-hero h1 {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+  }
+  .contact-form-section {
+    max-width: 100%;
+  }
+  .contact-field input,
+  .contact-field textarea {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .contact-page {
+    padding: 80px 12px 32px;
+  }
+  .contact-hero h1 {
+    font-size: clamp(1.8rem, 7vw, 3rem);
+  }
+  .contact-hero p {
+    font-size: 0.9rem;
+  }
+  .contact-submit {
+    width: 100%;
+    text-align: center;
+  }
 }

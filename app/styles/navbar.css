@@ -248,9 +248,7 @@ html[data-theme='light'] .glass-navbar__theme-icon--moon { opacity: 1; transform
   .glass-navbar__mobile-backdrop {
     position: absolute;
     inset: 0;
-    background: var(--overlay-backdrop);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: var(--bg-color);
   }
 
   .glass-navbar__mobile-content {
@@ -262,6 +260,7 @@ html[data-theme='light'] .glass-navbar__theme-icon--moon { opacity: 1; transform
     align-items: center;
     padding: 100px 32px 60px;
     gap: 8px;
+    background: var(--bg-color);
   }
 
   .glass-navbar__mobile-link {
@@ -276,6 +275,8 @@ html[data-theme='light'] .glass-navbar__theme-icon--moon { opacity: 1; transform
     text-transform: lowercase;
     letter-spacing: -1px;
     transition: color 0.2s ease;
+    width: 100%;
+    text-align: center;
   }
 
   .glass-navbar__mobile-link:active {
@@ -285,6 +286,7 @@ html[data-theme='light'] .glass-navbar__theme-icon--moon { opacity: 1; transform
   .glass-navbar__mobile-products {
     margin-top: 24px;
     text-align: center;
+    width: 100%;
   }
 
   .glass-navbar__mobile-products-label {
@@ -305,6 +307,8 @@ html[data-theme='light'] .glass-navbar__theme-icon--moon { opacity: 1; transform
     color: var(--color-gold);
     text-decoration: none;
     padding: 8px 0;
+    width: 100%;
+    text-align: center;
   }
 
   .glass-navbar__mobile-product span {
@@ -331,12 +335,16 @@ html[data-theme='light'] .glass-navbar__theme-icon--moon { opacity: 1; transform
     top: max(16px, env(safe-area-inset-top));
     left: 50%;
     transform: translateX(-50%);
-    max-width: calc(100% - 24px);
+    width: auto;
+    max-width: calc(100% - 32px);
   }
 
   .glass-navbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 0.75rem;
-    padding: 0.35rem 0.5rem 0.35rem 1.25rem;
+    padding: 0.4rem 0.6rem 0.4rem 1.25rem;
     border-radius: 40px;
   }
 
@@ -368,8 +376,6 @@ html[data-theme='light'] .glass-navbar__theme-icon--moon { opacity: 1; transform
     display: none;
   }
 
-  /* Auto-margin pseudo elements keep the centered menu scrollable
-     without clipping content at the top or bottom. */
   .glass-navbar__mobile-content::before,
   .glass-navbar__mobile-content::after {
     content: '';
@@ -395,6 +401,10 @@ html[data-theme='light'] .glass-navbar__theme-icon--moon { opacity: 1; transform
 
 /* Small phones (≤ 360px) — compact everything */
 @media (max-width: 360px) {
+  .glass-navbar {
+    max-width: calc(100% - 20px);
+  }
+
   .glass-navbar__inner {
     gap: 0.5rem;
     padding: 0.3rem 0.4rem 0.3rem 1rem;
